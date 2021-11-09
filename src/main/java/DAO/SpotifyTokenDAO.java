@@ -1,10 +1,9 @@
 package DAO;
 
 import Model.AuthenticationOptions;
-import Enum.STATUS_CODE;
 import Model.SpotifyToken;
 import Exception.*;
-import Util.SpotifyTokenDAOExceptionHandler;
+import ExceptionHandler.SpotifyTokenDAOExceptionHandler;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -16,6 +15,8 @@ import java.util.stream.Collectors;
 public class SpotifyTokenDAO implements TokenDAO {
 
 	private HttpURLConnection connection;
+
+	public SpotifyTokenDAO() {}
 
 	@Override
 	public SpotifyToken getToken() throws IOException, BadRequestException {
@@ -64,7 +65,7 @@ public class SpotifyTokenDAO implements TokenDAO {
 	}
 
 	private String buildResponseString(BufferedReader reader) {
-		return reader.lines().collect(Collectors.joining("/n"));
+		return reader.lines().collect(Collectors.joining());
 	}
 
 	private SpotifyToken getBuildSpotifyToken(String json) {
