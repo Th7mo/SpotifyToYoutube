@@ -20,26 +20,10 @@ public class SpotifyTokenDAO implements TokenDAO {
 	public SpotifyToken getToken() throws IOException, BadRequestException {
 		initializeConnection();
 		sendRequest();
-		int responseCode = getResponseCode();
+		handleStatusCodes();
+		String responseJson = getResponse();
 
-		if (responseCode == STATUS_CODE.OK.codeNumber()) {
-			String responseJson = getResponse();
-
-			return getBuildSpotifyToken(responseJson);
-		}
-
-		if (responseCode == STATUS_CODE.BAD_REQUEST.codeNumber()) {
-			throw new InvalidCredentialsForTokenException(
-					"Bad Request, Credentials for token are invalid:" +
-							"\n\nClient_Id: " +
-							AuthenticationOptions.CLIENT_ID +
-							"\nClient_Secret: " +
-							AuthenticationOptions.CLIENT_SECRET);
-		}
-
-		throw new InvalidRequestTokenPathException(
-				"Bad Request, path to the token endpoint is wrong: " +
-						"\nPath: " + AuthenticationOptions.TOKEN_URL);
+		return getBuildSpotifyToken(responseJson);
 	}
 
 	private void initializeConnection() throws IOException {
@@ -71,10 +55,6 @@ public class SpotifyTokenDAO implements TokenDAO {
 		return buildResponseString(reader);
 	}
 
-	private int getResponseCode() throws IOException {
-		return connection.getResponseCode();
-	}
-
 	private BufferedReader getBufferedReader() throws IOException {
 		InputStream inputStream = connection.getInputStream();
 		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
@@ -88,5 +68,44 @@ public class SpotifyTokenDAO implements TokenDAO {
 
 	private SpotifyToken getBuildSpotifyToken(String json) {
 		return new Gson().fromJson(json, SpotifyToken.class);
+	}
+
+	private void handleStatusCodes() throws IOException, BadRequestException {
+		int responseCode = getResponseCode();
+
+		if (responseCode != STATUS_CODE.OK.codeNumber()) {
+			handleBadRequestStatusCodes(responseCode);
+		}
+	}
+
+	private int getResponseCode() throws IOException {
+		return connection.getResponseCode();
+	}
+
+	private void handleBadRequestStatusCodes(int responseCode)
+			throws InvalidCredentialsForTokenException,
+			InvalidRequestTokenPathException {
+		if (responseCode == STATUS_CODE.BAD_REQUEST.codeNumber()) {
+			throwInvalidCredentialsForTokenException();
+		}
+
+		throwInvalidRequestTokenPathException();
+	}
+
+	private void throwInvalidCredentialsForTokenException()
+			throws InvalidCredentialsForTokenException {
+		throw new InvalidCredentialsForTokenException(
+				"Bad Request, Credentials for token are invalid:" +
+						"\n\nClient_Id: " +
+						AuthenticationOptions.CLIENT_ID +
+						"\nClient_Secret: " +
+						AuthenticationOptions.CLIENT_SECRET);
+	}
+
+	private void throwInvalidRequestTokenPathException()
+			throws InvalidRequestTokenPathException {
+		throw new InvalidRequestTokenPathException(
+				"Bad Request, path to the token endpoint is wrong: " +
+						"\nPath: " + AuthenticationOptions.TOKEN_URL);
 	}
 }
