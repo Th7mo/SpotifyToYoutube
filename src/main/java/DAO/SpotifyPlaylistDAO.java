@@ -2,6 +2,7 @@ package DAO;
 
 import Model.Playlist;
 import Model.SpotifyPlaylist;
+import ExceptionHandler.SpotifyPlaylistDAOExceptionHandler;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -17,6 +18,7 @@ public class SpotifyPlaylistDAO implements PlaylistDAO {
 	private String accessToken;
 	private int offset = 0;
 	private String playlistURL;
+	private String playlistId;
 
 	public SpotifyPlaylistDAO() {}
 
@@ -24,6 +26,7 @@ public class SpotifyPlaylistDAO implements PlaylistDAO {
 	public Playlist getPlaylist(String accessToken, String playlistId)
 			throws IOException {
 		this.accessToken = accessToken;
+		this.playlistId = playlistId;
 		playlistURL = playlistBaseURL + playlistId + "/tracks?offset=";
 
 		return getCompletePlaylist();
@@ -48,6 +51,8 @@ public class SpotifyPlaylistDAO implements PlaylistDAO {
 
 	private Playlist getPartPlaylist() throws IOException {
 		initializeConnection();
+		SpotifyPlaylistDAOExceptionHandler.handleStatusCodes(
+				connection, accessToken, playlistId);
 		String responseJson = getResponse();
 
 		return getBuildPlaylist(responseJson);

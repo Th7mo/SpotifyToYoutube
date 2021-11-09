@@ -1,4 +1,4 @@
-package Util;
+package ExceptionHandler;
 
 import Model.AuthenticationOptions;
 import Enum.STATUS_CODE;

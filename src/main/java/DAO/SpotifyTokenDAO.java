@@ -3,7 +3,7 @@ package DAO;
 import Model.AuthenticationOptions;
 import Model.SpotifyToken;
 import Exception.*;
-import Util.SpotifyTokenDAOExceptionHandler;
+import ExceptionHandler.SpotifyTokenDAOExceptionHandler;
 import com.google.gson.Gson;
 
 import java.io.*;
