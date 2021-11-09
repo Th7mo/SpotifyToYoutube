@@ -65,7 +65,7 @@ public class SpotifyTokenDAO implements TokenDAO {
 	}
 
 	private String buildResponseString(BufferedReader reader) {
-		return reader.lines().collect(Collectors.joining("/n"));
+		return reader.lines().collect(Collectors.joining());
 	}
 
 	private SpotifyToken getBuildSpotifyToken(String json) {
