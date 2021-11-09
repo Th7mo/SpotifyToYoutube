@@ -1,6 +1,6 @@
 package Model;
 
-public class SpotifyToken {
+public class SpotifyToken implements Token {
 
 	private String access_token;
 	private String token_type;
@@ -8,10 +8,12 @@ public class SpotifyToken {
 
 	public SpotifyToken() {}
 
+	@Override
 	public String getAccess_token() {
 		return access_token;
 	}
 
+	@Override
 	public void setAccess_token(String access_token) {
 		this.access_token = access_token;
 	}
