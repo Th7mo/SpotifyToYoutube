@@ -9,10 +9,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-public class SpotifyTokenDAO {
+public class SpotifyTokenDAO implements TokenDAO {
 
 	private HttpURLConnection connection;
 
+	@Override
 	public SpotifyToken getToken() throws IOException {
 		initializeConnection();
 		sendRequest();
