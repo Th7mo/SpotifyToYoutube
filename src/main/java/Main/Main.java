@@ -6,7 +6,6 @@ import DAO.SpotifyTokenDAO;
 import DAO.TokenDAO;
 import Model.Item;
 import Model.Playlist;
-import Model.SpotifyPlaylist;
 import Model.Token;
 
 import java.util.logging.Level;

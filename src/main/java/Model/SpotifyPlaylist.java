@@ -1,10 +1,11 @@
 package Model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SpotifyPlaylist implements Playlist {
 
-	private List<Item> items;
+	private List<Item> items = new ArrayList<>();
 
 	public SpotifyPlaylist() {}
 
@@ -16,5 +17,15 @@ public class SpotifyPlaylist implements Playlist {
 	@Override
 	public void setItems(List<Item> items) {
 		this.items = items;
+	}
+
+	@Override
+	public void join(Playlist playlist) {
+		items.addAll(playlist.getItems());
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return items.size() == 0;
 	}
 }

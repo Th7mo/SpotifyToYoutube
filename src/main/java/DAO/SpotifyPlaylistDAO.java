@@ -13,13 +13,36 @@ public class SpotifyPlaylistDAO implements PlaylistDAO {
 
 	private HttpURLConnection connection;
 	private String accessToken;
-	private final String PLAYLIST_URL = "https://api.spotify.com/v1/playlists/4MWtutmJdwJLX8p1SsTQal/tracks";
+	private int offset = 0;
+	private String playlistURL = "https://api.spotify.com/v1/playlists/4MWtutmJdwJLX8p1SsTQal/tracks";
 
 	public SpotifyPlaylistDAO() {}
 
 	@Override
 	public Playlist getPlaylist(String accessToken) throws IOException {
 		this.accessToken = accessToken;
+
+		return getCompletePlaylist();
+	}
+
+	private Playlist getCompletePlaylist() throws IOException {
+		Playlist completePlaylist = new SpotifyPlaylist();
+		Playlist partPlaylist = getPartPlaylist();
+
+		while (!partPlaylist.isEmpty()) {
+			completePlaylist.join(partPlaylist);
+			increaseTrackOffset();
+			partPlaylist = getPartPlaylist();
+		}
+
+		return completePlaylist;
+	}
+
+	private void increaseTrackOffset() {
+		offset += 100;
+	}
+
+	private Playlist getPartPlaylist() throws IOException {
 		initializeConnection();
 		String responseJson = getResponse();
 
@@ -27,7 +50,7 @@ public class SpotifyPlaylistDAO implements PlaylistDAO {
 	}
 
 	private void initializeConnection() throws IOException {
-		URL url = new URL(PLAYLIST_URL);
+		URL url = new URL(PLAYLIST_URL + "?offset=" + offset);
 		connection = (HttpURLConnection) url.openConnection();
 		connection.setDoOutput(true);
 		connection.setRequestProperty("Authorization",
