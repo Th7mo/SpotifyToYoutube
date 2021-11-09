@@ -1,4 +1,4 @@
-package Model;
+package Enum;
 
 public enum STATUS_CODE {
 	OK (200),

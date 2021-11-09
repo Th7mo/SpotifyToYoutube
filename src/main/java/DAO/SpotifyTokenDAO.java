@@ -1,7 +1,7 @@
 package DAO;
 
 import Model.AuthenticationOptions;
-import Model.STATUS_CODE;
+import Enum.STATUS_CODE;
 import Model.SpotifyToken;
 import Exception.*;
 import com.google.gson.Gson;
