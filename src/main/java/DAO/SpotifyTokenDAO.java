@@ -4,6 +4,7 @@ import Model.AuthenticationOptions;
 import Enum.STATUS_CODE;
 import Model.SpotifyToken;
 import Exception.*;
+import Util.SpotifyTokenDAOExceptionHandler;
 import com.google.gson.Gson;
 
 import java.io.*;
@@ -20,7 +21,7 @@ public class SpotifyTokenDAO implements TokenDAO {
 	public SpotifyToken getToken() throws IOException, BadRequestException {
 		initializeConnection();
 		sendRequest();
-		handleStatusCodes();
+		SpotifyTokenDAOExceptionHandler.handleStatusCodes(connection);
 		String responseJson = getResponse();
 
 		return getBuildSpotifyToken(responseJson);
@@ -68,44 +69,5 @@ public class SpotifyTokenDAO implements TokenDAO {
 
 	private SpotifyToken getBuildSpotifyToken(String json) {
 		return new Gson().fromJson(json, SpotifyToken.class);
-	}
-
-	private void handleStatusCodes() throws IOException, BadRequestException {
-		int responseCode = getResponseCode();
-
-		if (responseCode != STATUS_CODE.OK.codeNumber()) {
-			handleBadRequestStatusCodes(responseCode);
-		}
-	}
-
-	private int getResponseCode() throws IOException {
-		return connection.getResponseCode();
-	}
-
-	private void handleBadRequestStatusCodes(int responseCode)
-			throws InvalidCredentialsForTokenException,
-			InvalidRequestTokenPathException {
-		if (responseCode == STATUS_CODE.BAD_REQUEST.codeNumber()) {
-			throwInvalidCredentialsForTokenException();
-		}
-
-		throwInvalidRequestTokenPathException();
-	}
-
-	private void throwInvalidCredentialsForTokenException()
-			throws InvalidCredentialsForTokenException {
-		throw new InvalidCredentialsForTokenException(
-				"Bad Request, Credentials for token are invalid:" +
-						"\n\nClient_Id: " +
-						AuthenticationOptions.CLIENT_ID +
-						"\nClient_Secret: " +
-						AuthenticationOptions.CLIENT_SECRET);
-	}
-
-	private void throwInvalidRequestTokenPathException()
-			throws InvalidRequestTokenPathException {
-		throw new InvalidRequestTokenPathException(
-				"Bad Request, path to the token endpoint is wrong: " +
-						"\nPath: " + AuthenticationOptions.TOKEN_URL);
 	}
 }
