@@ -26,6 +26,11 @@ public class SpotifyPlaylist implements Playlist {
 
 	@Override
 	public boolean isEmpty() {
-		return items.size() == 0;
+		return items.isEmpty();
+	}
+
+	@Override
+	public int size() {
+		return items.size();
 	}
 }

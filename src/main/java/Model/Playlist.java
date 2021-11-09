@@ -8,4 +8,5 @@ public interface Playlist {
 	void setItems(List<Item> items);
 	void join(Playlist playlist);
 	boolean isEmpty();
+	int size();
 }
