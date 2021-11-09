@@ -4,6 +4,8 @@ import DAO.PlaylistDAO;
 import DAO.SpotifyPlaylistDAO;
 import DAO.SpotifyTokenDAO;
 import DAO.TokenDAO;
+import Model.Item;
+import Model.Playlist;
 import Model.SpotifyPlaylist;
 import Model.Token;
 
@@ -22,7 +24,13 @@ public class Main {
 			Token token = spotifyTokenDAO.getToken();
 			logger.log(Level.INFO, "Attempt successful. \n" +
 					"Access token: " + token.getAccess_token());
-			playlistDAO.getPlaylist(token.getAccess_token());
+			Playlist spotifyPlaylist = playlistDAO.getPlaylist(token.getAccess_token());
+
+			for (Item item : spotifyPlaylist.getItems()) {
+				System.out.println(item.getTrack().getName() + " : " + item.getTrack().getArtist(0).getName());
+			}
+
+			System.out.println(spotifyPlaylist.getItems().size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
