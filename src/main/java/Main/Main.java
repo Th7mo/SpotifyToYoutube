@@ -23,13 +23,11 @@ public class Main {
 			Token token = spotifyTokenDAO.getToken();
 			logger.log(Level.INFO, "Attempt successful. \n" +
 					"Access token: " + token.getAccess_token());
-			Playlist spotifyPlaylist = playlistDAO.getPlaylist(token.getAccess_token());
+			Playlist spotifyPlaylist = playlistDAO.getPlaylist(token.getAccess_token(), "4MWtutmJdwJLX8p1SsTQal");
 
 			for (Item item : spotifyPlaylist.getItems()) {
 				System.out.println(item.getTrack().getName() + " : " + item.getTrack().getArtist(0).getName());
 			}
-
-			System.out.println(spotifyPlaylist.getItems().size());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

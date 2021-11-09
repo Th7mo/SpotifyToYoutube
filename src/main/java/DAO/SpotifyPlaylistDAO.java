@@ -11,16 +11,20 @@ import java.util.stream.Collectors;
 
 public class SpotifyPlaylistDAO implements PlaylistDAO {
 
+	private final String playlistBaseURL = "https://api.spotify.com/v1/playlists/";
+
 	private HttpURLConnection connection;
 	private String accessToken;
 	private int offset = 0;
-	private String playlistURL = "https://api.spotify.com/v1/playlists/4MWtutmJdwJLX8p1SsTQal/tracks";
+	private String playlistURL;
 
 	public SpotifyPlaylistDAO() {}
 
 	@Override
-	public Playlist getPlaylist(String accessToken) throws IOException {
+	public Playlist getPlaylist(String accessToken, String playlistId)
+			throws IOException {
 		this.accessToken = accessToken;
+		playlistURL = playlistBaseURL + playlistId + "/tracks?offset=";
 
 		return getCompletePlaylist();
 	}
@@ -50,7 +54,7 @@ public class SpotifyPlaylistDAO implements PlaylistDAO {
 	}
 
 	private void initializeConnection() throws IOException {
-		URL url = new URL(PLAYLIST_URL + "?offset=" + offset);
+		URL url = new URL(playlistURL + offset);
 		connection = (HttpURLConnection) url.openConnection();
 		connection.setDoOutput(true);
 		connection.setRequestProperty("Authorization",
