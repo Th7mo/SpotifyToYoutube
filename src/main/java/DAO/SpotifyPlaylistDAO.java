@@ -1,22 +1,19 @@
 package DAO;
 
-import Model.AuthenticationOptions;
 import Model.Playlist;
 import Model.SpotifyPlaylist;
-import Model.SpotifyToken;
 import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
 public class SpotifyPlaylistDAO implements PlaylistDAO {
 
 	private HttpURLConnection connection;
 	private String accessToken;
-	private final String PLAYLIST_URL = "https://api.spotify.com/v1/playlists/0rBbrxmYoRfekosc63tbss/tracks";
+	private final String PLAYLIST_URL = "https://api.spotify.com/v1/playlists/4MWtutmJdwJLX8p1SsTQal/tracks";
 
 	public SpotifyPlaylistDAO() {}
 
@@ -25,7 +22,6 @@ public class SpotifyPlaylistDAO implements PlaylistDAO {
 		this.accessToken = accessToken;
 		initializeConnection();
 		String responseJson = getResponse();
-		System.out.println(responseJson);
 
 		return getBuildPlaylist(responseJson);
 	}
@@ -59,5 +55,4 @@ public class SpotifyPlaylistDAO implements PlaylistDAO {
 	private Playlist getBuildPlaylist(String json) {
 		return new Gson().fromJson(json, SpotifyPlaylist.class);
 	}
-
 }
