@@ -1,7 +1,6 @@
 package DAO;
 
 import Model.AuthenticationOptions;
-import Enum.STATUS_CODE;
 import Model.SpotifyToken;
 import Exception.*;
 import Util.SpotifyTokenDAOExceptionHandler;
@@ -16,6 +15,8 @@ import java.util.stream.Collectors;
 public class SpotifyTokenDAO implements TokenDAO {
 
 	private HttpURLConnection connection;
+
+	public SpotifyTokenDAO() {}
 
 	@Override
 	public SpotifyToken getToken() throws IOException, BadRequestException {
