@@ -3,6 +3,7 @@ package DAO;
 import Model.Playlist;
 import Model.Token;
 import Model.Track;
+import Exception.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -53,5 +54,23 @@ public class SpotifyPlaylistDAOTests {
 		int artistNameLength = firstTrack.getArtist(0).getName().length();
 
 		assertTrue(artistNameLength > 0);
+	}
+
+	@Test
+	public void Should_RaiseExceptionWhenAccessTokenIsInvalid() {
+		String wrongAccessToken = "wrongAccessToken";
+
+		assertThrows(InvalidAccessTokenException.class, () -> {
+			spotifyPlaylist = spotifyPlaylistDAO.getPlaylist(wrongAccessToken, playlistId);
+		});
+	}
+
+	@Test
+	public void Should_RaiseExceptionWhenPlaylistIdIsInvalid() {
+		String wrongPlaylistId = "wrongPlaylistId";
+
+		assertThrows(InvalidPlaylistIdException.class, () -> {
+			spotifyPlaylist = spotifyPlaylistDAO.getPlaylist(accessToken, wrongPlaylistId);
+		});
 	}
 }
