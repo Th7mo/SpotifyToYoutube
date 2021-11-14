@@ -8,8 +8,6 @@ public class SpotifyPlaylist {
 	private List<Item> items = new ArrayList<>();
 	private String name;
 
-	public SpotifyPlaylist() {}
-
 	public List<Item> getItems() {
 		return items;
 	}

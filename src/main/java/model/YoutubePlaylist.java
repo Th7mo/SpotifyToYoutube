@@ -7,8 +7,6 @@ public class YoutubePlaylist {
 
 	private List<String> trackIds = new ArrayList<>();
 
-	public YoutubePlaylist() {}
-
 	public List<String> getTrackIds() {
 		return trackIds;
 	}

@@ -6,8 +6,6 @@ public class Album {
 
 	private List<Artist> artists;
 
-	public Album() {}
-
 	public List<Artist> getArtists() {
 		return artists;
 	}

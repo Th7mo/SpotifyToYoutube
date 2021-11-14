@@ -19,8 +19,6 @@ public class SpotifyPlaylistDAO implements ISpotifyPlaylistDAO {
 	private String playlistURL;
 	private String playlistId;
 
-	public SpotifyPlaylistDAO() {}
-
 	@Override
 	public SpotifyPlaylist getPlaylist(String accessToken, String playlistId)
 			throws IOException {

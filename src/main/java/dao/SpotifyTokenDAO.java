@@ -16,8 +16,6 @@ public class SpotifyTokenDAO implements TokenDAO {
 
 	private HttpURLConnection connection;
 
-	public SpotifyTokenDAO() {}
-
 	@Override
 	public SpotifyToken getToken() throws IOException, BadRequestException {
 		initializeConnection();
