@@ -6,6 +6,7 @@ import java.util.List;
 public class SpotifyPlaylist implements Playlist {
 
 	private List<Item> items = new ArrayList<>();
+	private String name;
 
 	public SpotifyPlaylist() {}
 
@@ -32,5 +33,15 @@ public class SpotifyPlaylist implements Playlist {
 	@Override
 	public int size() {
 		return items.size();
+	}
+
+	@Override
+	public String getTitle() {
+		return name;
+	}
+
+	@Override
+	public void setTitle(String title) {
+		this.name = title;
 	}
 }
