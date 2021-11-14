@@ -1,29 +1,27 @@
 package dao;
 
+import builder.HttpURLConnectionDirector;
+import builder.SpotifyPlaylistConnectionBuilder;
 import model.SpotifyPlaylist;
 import exceptionhandler.SpotifyPlaylistDAOExceptionHandler;
 import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.stream.Collectors;
 
 public class SpotifyPlaylistDAO implements ISpotifyPlaylistDAO {
 
 	private HttpURLConnection connection;
 	private String accessToken;
-	private int offset = 0;
-	private String playlistURL;
 	private String playlistId;
+	private int offset = 0;
 
 	@Override
 	public SpotifyPlaylist getPlaylist(String accessToken, String playlistId)
 			throws IOException {
 		this.accessToken = accessToken;
 		this.playlistId = playlistId;
-		String playlistBaseURL = "https://api.spotify.com/v1/playlists/";
-		playlistURL = playlistBaseURL + playlistId + "/tracks?offset=";
 
 		return getCompletePlaylist();
 	}
@@ -55,12 +53,11 @@ public class SpotifyPlaylistDAO implements ISpotifyPlaylistDAO {
 	}
 
 	private void initializeConnection() throws IOException {
-		URL url = new URL(playlistURL + offset);
-		connection = (HttpURLConnection) url.openConnection();
-		connection.setDoOutput(true);
-		connection.setRequestProperty("Authorization",
-				"Bearer " + accessToken);
-		connection.setRequestProperty("Content-Type", "application/json");
+		SpotifyPlaylistConnectionBuilder builder = new SpotifyPlaylistConnectionBuilder();
+		builder.setPlaylistURL(playlistId, offset);
+		HttpURLConnectionDirector director = new HttpURLConnectionDirector(builder);
+		director.makeSpotifyPlaylistConnection(accessToken);
+		connection = builder.getResult();
 	}
 
 	private String getResponse() throws IOException {
