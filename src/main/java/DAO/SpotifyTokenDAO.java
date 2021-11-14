@@ -1,6 +1,6 @@
 package DAO;
 
-import Model.AuthenticationOptions;
+import Model.SpotifyAuthorizationOptions;
 import Model.SpotifyToken;
 import Exception.*;
 import ExceptionHandler.SpotifyTokenDAOExceptionHandler;
@@ -29,7 +29,7 @@ public class SpotifyTokenDAO implements TokenDAO {
 	}
 
 	private void initializeConnection() throws IOException {
-		URL url = new URL(AuthenticationOptions.TOKEN_URL);
+		URL url = new URL(SpotifyAuthorizationOptions.TOKEN_URL);
 		connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestMethod("POST");
 		connection.setDoOutput(true);
@@ -44,9 +44,9 @@ public class SpotifyTokenDAO implements TokenDAO {
 
 	private byte[] getRequestData() {
 		String request = "grant_type=client_credentials&client_id=" +
-				AuthenticationOptions.CLIENT_ID +
+				SpotifyAuthorizationOptions.CLIENT_ID +
 				"&client_secret=" +
-				AuthenticationOptions.CLIENT_SECRET;
+				SpotifyAuthorizationOptions.CLIENT_SECRET;
 
 		return request.getBytes(StandardCharsets.UTF_8);
 	}

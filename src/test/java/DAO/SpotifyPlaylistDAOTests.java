@@ -1,6 +1,6 @@
 package DAO;
 
-import Model.Playlist;
+import Model.SpotifyPlaylist;
 import Model.Token;
 import Model.Track;
 import Exception.*;
@@ -18,7 +18,7 @@ public class SpotifyPlaylistDAOTests {
 	private SpotifyPlaylistDAO spotifyPlaylistDAO;
 	private SpotifyTokenDAO spotifyTokenDAO;
 	private Token spotifyToken;
-	private Playlist spotifyPlaylist;
+	private SpotifyPlaylist spotifyPlaylist;
 	private String accessToken;
 
 	@BeforeEach

@@ -1,6 +1,6 @@
 package DAO;
 
-import Model.AuthenticationOptions;
+import Model.SpotifyAuthorizationOptions;
 import Model.SpotifyToken;
 import Exception.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,9 +22,9 @@ public class SpotifyTokenDAOTests {
 	}
 
 	private void resetAuthenticationOptions() {
-		AuthenticationOptions.CLIENT_ID = "4299b9c3763b4311b4cffa528525e61c";
-		AuthenticationOptions.CLIENT_SECRET = "63842318a1944c2eb815a38a6e978730";
-		AuthenticationOptions.TOKEN_URL = "https://accounts.spotify.com/api/token";
+		SpotifyAuthorizationOptions.CLIENT_ID = "4299b9c3763b4311b4cffa528525e61c";
+		SpotifyAuthorizationOptions.CLIENT_SECRET = "63842318a1944c2eb815a38a6e978730";
+		SpotifyAuthorizationOptions.TOKEN_URL = "https://accounts.spotify.com/api/token";
 	}
 
 	@Test
@@ -78,7 +78,7 @@ public class SpotifyTokenDAOTests {
 
 	@Test()
 	public void Should_ThrowExceptionWhenClientIdIsInvalid() {
-		AuthenticationOptions.CLIENT_ID = "invalidClientId";
+		SpotifyAuthorizationOptions.CLIENT_ID = "invalidClientId";
 
 		assertThrows(InvalidCredentialsForTokenException.class, () -> {
 			spotifyToken = spotifyTokenDAO.getToken();
@@ -87,7 +87,7 @@ public class SpotifyTokenDAOTests {
 
 	@Test()
 	public void Should_ThrowExceptionWhenClientSecretIsInvalid() {
-		AuthenticationOptions.CLIENT_SECRET = "invalidClientSecret";
+		SpotifyAuthorizationOptions.CLIENT_SECRET = "invalidClientSecret";
 
 		assertThrows(InvalidCredentialsForTokenException.class, () -> {
 			spotifyToken = spotifyTokenDAO.getToken();
@@ -96,7 +96,7 @@ public class SpotifyTokenDAOTests {
 
 	@Test
 	public void Should_ThrowInvalidRequestTokenPathException() {
-		AuthenticationOptions.TOKEN_URL = "https://google.com";
+		SpotifyAuthorizationOptions.TOKEN_URL = "https://google.com";
 
 		assertThrows(InvalidRequestTokenPathException.class, () -> {
 			spotifyToken = spotifyTokenDAO.getToken();
