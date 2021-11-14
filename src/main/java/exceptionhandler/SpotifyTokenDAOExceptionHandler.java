@@ -1,7 +1,7 @@
 package exceptionhandler;
 
+import enumerator.StatusCode;
 import model.SpotifyAuthorizationOptions;
-import enumerator.STATUS_CODE;
 import exception.*;
 
 import java.io.IOException;
@@ -16,7 +16,7 @@ public class SpotifyTokenDAOExceptionHandler {
 		SpotifyTokenDAOExceptionHandler.connection = connection;
 		int responseCode = getResponseCode();
 
-		if (responseCode != STATUS_CODE.OK.codeNumber()) {
+		if (responseCode != StatusCode.OK.codeNumber()) {
 			handleBadRequestStatusCodes(responseCode);
 		}
 	}
@@ -28,7 +28,7 @@ public class SpotifyTokenDAOExceptionHandler {
 	private static void handleBadRequestStatusCodes(int responseCode)
 			throws InvalidCredentialsForTokenException,
 			InvalidRequestTokenPathException {
-		if (responseCode == STATUS_CODE.BAD_REQUEST.codeNumber()) {
+		if (responseCode == StatusCode.BAD_REQUEST.codeNumber()) {
 			throwInvalidCredentialsForTokenException();
 		}
 
