@@ -6,8 +6,6 @@ public class SpotifyToken implements Token {
 	private String token_type;
 	private int expires_in;
 
-	public SpotifyToken() {}
-
 	@Override
 	public String getAccess_token() {
 		return access_token;

@@ -5,8 +5,6 @@ public class Track {
 	private String name;
 	private Album album;
 
-	public Track() {}
-
 	public String getName() {
 		return name;
 	}
