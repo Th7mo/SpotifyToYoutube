@@ -1,10 +1,10 @@
 package DAO;
 
-import Model.Playlist;
+import Model.SpotifyPlaylist;
 
 import java.io.IOException;
 
-public interface PlaylistDAO {
+public interface ISpotifyPlaylistDAO {
 
-	Playlist getPlaylist(String accessToken, String playlistId) throws IOException;
+	SpotifyPlaylist getPlaylist(String accessToken, String playlistId) throws IOException;
 }

@@ -1,6 +1,6 @@
 package ExceptionHandler;
 
-import Model.AuthenticationOptions;
+import Model.SpotifyAuthorizationOptions;
 import Enum.STATUS_CODE;
 import Exception.*;
 
@@ -40,15 +40,15 @@ public class SpotifyTokenDAOExceptionHandler {
 		throw new InvalidCredentialsForTokenException(
 				"Bad Request, Credentials for token are invalid:" +
 						"\n\nClient_Id: " +
-						AuthenticationOptions.CLIENT_ID +
+						SpotifyAuthorizationOptions.CLIENT_ID +
 						"\nClient_Secret: " +
-						AuthenticationOptions.CLIENT_SECRET);
+						SpotifyAuthorizationOptions.CLIENT_SECRET);
 	}
 
 	private static void throwInvalidRequestTokenPathException()
 			throws InvalidRequestTokenPathException {
 		throw new InvalidRequestTokenPathException(
 				"Bad Request, path to the token endpoint is wrong: " +
-						"\nPath: " + AuthenticationOptions.TOKEN_URL);
+						"\nPath: " + SpotifyAuthorizationOptions.TOKEN_URL);
 	}
 }
