@@ -28,7 +28,7 @@ public class SpotifyTokenDAOTests {
 	}
 
 	@Test
-	public void Should_SayAccessTokenIsNotNullWhenGettingToken()
+	public void shouldSayAccessTokenIsNotNullWhenGettingToken()
 			throws IOException {
 		spotifyToken = spotifyTokenDAO.getToken();
 		String access_token = spotifyToken.getAccess_token();
@@ -37,7 +37,7 @@ public class SpotifyTokenDAOTests {
 	}
 
 	@Test
-	public void Should_SayTokenTypeIsNotNullWhenGettingToken()
+	public void shouldSayTokenTypeIsNotNullWhenGettingToken()
 			throws IOException {
 		spotifyToken = spotifyTokenDAO.getToken();
 		String token_type = spotifyToken.getToken_type();
@@ -46,7 +46,7 @@ public class SpotifyTokenDAOTests {
 	}
 
 	@Test
-	public void Should_SayExpiresInIs3600WhenGettingToken()
+	public void shouldSayExpiresInIs3600WhenGettingToken()
 			throws IOException {
 		int expected_expires_in = 3600;
 		spotifyToken = spotifyTokenDAO.getToken();
@@ -56,7 +56,7 @@ public class SpotifyTokenDAOTests {
 	}
 
 	@Test
-	public void Should_SayAccessTokenLengthIsEightyThreeWhenGettingToken()
+	public void shouldSayAccessTokenLengthIsEightyThreeWhenGettingToken()
 			throws IOException {
 		int expectedTokenLength = 83;
 		spotifyToken = spotifyTokenDAO.getToken();
@@ -67,7 +67,7 @@ public class SpotifyTokenDAOTests {
 	}
 
 	@Test
-	public void Should_SayTokenTypeIsBearerWhenGettingToken()
+	public void shouldSayTokenTypeIsBearerWhenGettingToken()
 			throws IOException {
 		String expectedTokenType = "Bearer";
 		spotifyToken = spotifyTokenDAO.getToken();
@@ -77,7 +77,7 @@ public class SpotifyTokenDAOTests {
 	}
 
 	@Test()
-	public void Should_ThrowExceptionWhenClientIdIsInvalid() {
+	public void shouldThrowExceptionWhenClientIdIsInvalid() {
 		SpotifyAuthorizationOptions.CLIENT_ID = "invalidClientId";
 
 		assertThrows(InvalidCredentialsForTokenException.class, () -> {
@@ -86,7 +86,7 @@ public class SpotifyTokenDAOTests {
 	}
 
 	@Test()
-	public void Should_ThrowExceptionWhenClientSecretIsInvalid() {
+	public void shouldThrowExceptionWhenClientSecretIsInvalid() {
 		SpotifyAuthorizationOptions.CLIENT_SECRET = "invalidClientSecret";
 
 		assertThrows(InvalidCredentialsForTokenException.class, () -> {
@@ -95,7 +95,7 @@ public class SpotifyTokenDAOTests {
 	}
 
 	@Test
-	public void Should_ThrowInvalidRequestTokenPathException() {
+	public void shouldThrowInvalidRequestTokenPathException() {
 		SpotifyAuthorizationOptions.TOKEN_URL = "https://google.com";
 
 		assertThrows(InvalidRequestTokenPathException.class, () -> {

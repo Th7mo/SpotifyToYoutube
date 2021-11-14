@@ -16,21 +16,19 @@ public class SpotifyPlaylistDAOTests {
 	private final String playlistId = "37i9dQZEVXbMDoHDwVN2tF";
 
 	private SpotifyPlaylistDAO spotifyPlaylistDAO;
-	private SpotifyTokenDAO spotifyTokenDAO;
-	private Token spotifyToken;
 	private SpotifyPlaylist spotifyPlaylist;
 	private String accessToken;
 
 	@BeforeEach
 	public void setUp() throws IOException {
 		spotifyPlaylistDAO = new SpotifyPlaylistDAO();
-		spotifyTokenDAO = new SpotifyTokenDAO();
-		spotifyToken = spotifyTokenDAO.getToken();
+		SpotifyTokenDAO spotifyTokenDAO = new SpotifyTokenDAO();
+		Token spotifyToken = spotifyTokenDAO.getToken();
 		accessToken = spotifyToken.getAccess_token();
 	}
 
 	@Test
-	public void Should_SayPlaylistSizeIsEqualTo50() throws IOException {
+	public void shouldSayPlaylistSizeIsEqualTo50() throws IOException {
 		int expectedPlaylistSize = 50;
 		spotifyPlaylist = spotifyPlaylistDAO.getPlaylist(accessToken, playlistId);
 		int playlistSize = spotifyPlaylist.size();
@@ -39,7 +37,7 @@ public class SpotifyPlaylistDAOTests {
 	}
 
 	@Test
-	public void Should_SayFirstSongNameIsNotEmpty() throws IOException {
+	public void shouldSayFirstSongNameIsNotEmpty() throws IOException {
 		spotifyPlaylist = spotifyPlaylistDAO.getPlaylist(accessToken, playlistId);
 		Track firstTrack = spotifyPlaylist.getItems().get(0).getTrack();
 		int songNameLength = firstTrack.getName().length();
@@ -48,7 +46,7 @@ public class SpotifyPlaylistDAOTests {
 	}
 
 	@Test
-	public void Should_SayFirstSongArtistIsNotEmpty() throws IOException {
+	public void shouldSayFirstSongArtistIsNotEmpty() throws IOException {
 		spotifyPlaylist = spotifyPlaylistDAO.getPlaylist(accessToken, playlistId);
 		Track firstTrack = spotifyPlaylist.getItems().get(0).getTrack();
 		int artistNameLength = firstTrack.getArtist(0).getName().length();
@@ -57,7 +55,7 @@ public class SpotifyPlaylistDAOTests {
 	}
 
 	@Test
-	public void Should_RaiseExceptionWhenAccessTokenIsInvalid() {
+	public void shouldRaiseExceptionWhenAccessTokenIsInvalid() {
 		String wrongAccessToken = "wrongAccessToken";
 
 		assertThrows(InvalidAccessTokenException.class, () -> {
@@ -66,7 +64,7 @@ public class SpotifyPlaylistDAOTests {
 	}
 
 	@Test
-	public void Should_RaiseExceptionWhenPlaylistIdIsInvalid() {
+	public void shouldRaiseExceptionWhenPlaylistIdIsInvalid() {
 		String wrongPlaylistId = "wrongPlaylistId";
 
 		assertThrows(InvalidPlaylistIdException.class, () -> {
