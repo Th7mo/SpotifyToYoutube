@@ -4,6 +4,7 @@ import Model.Item;
 import Model.SpotifyPlaylist;
 import Model.YoutubeAuthorizationOptions;
 import Model.YoutubePlaylist;
+import Util.Authorisation;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.services.youtube.YouTube;
@@ -28,9 +29,9 @@ public class YoutubePlaylistDAO {
 		List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
 
 		try {
-			Credential credential = Auth.authorize(scopes, "playlistupdates");
+			Credential credential = Authorisation.authorize(scopes, "playlistupdates");
 			youtube = new YouTube.Builder(
-					Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, credential)
+					Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, credential)
 					.setApplicationName("SpotifyToYoutube").build();
 
 			String playlistId = insertPlaylist();
@@ -93,7 +94,7 @@ public class YoutubePlaylistDAO {
 
 		for (Item item : spotifyPlaylist.getItems()) {
 			try {
-				youtube = new YouTube.Builder(Auth.HTTP_TRANSPORT, Auth.JSON_FACTORY, request -> {})
+				youtube = new YouTube.Builder(Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, request -> {})
 						.setApplicationName("SpotifyToYoutube").build();
 
 				String queryTerm = item.getTrack().getArtist(0).getName() + " " + item.getTrack().getName();
