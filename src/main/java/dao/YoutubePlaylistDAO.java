@@ -2,7 +2,7 @@ package dao;
 
 import model.Item;
 import model.SpotifyPlaylist;
-import model.YoutubeAuthorizationOptions;
+import model.YoutubeAuthorization;
 import model.YoutubePlaylist;
 import util.Authorisation;
 import com.google.api.client.auth.oauth2.Credential;
@@ -101,7 +101,7 @@ public class YoutubePlaylistDAO {
 
 				YouTube.Search.List search = youtube.search().list(Collections.singletonList("id,snippet"));
 
-				String apiKey = YoutubeAuthorizationOptions.API_KEY;
+				String apiKey = YoutubeAuthorization.API_KEY;
 				search.setKey(apiKey);
 				search.setQ(queryTerm);
 
