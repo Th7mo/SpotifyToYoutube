@@ -1,5 +1,7 @@
 package dao;
 
+import builder.HttpURLConnectionDirector;
+import builder.SpotifyTokenConnectionBuilder;
 import model.SpotifyAuthorizationOptions;
 import model.SpotifyToken;
 import exception.*;
@@ -8,7 +10,6 @@ import com.google.gson.Gson;
 
 import java.io.*;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
@@ -27,12 +28,10 @@ public class SpotifyTokenDAO implements TokenDAO {
 	}
 
 	private void initializeConnection() throws IOException {
-		URL url = new URL(SpotifyAuthorizationOptions.TOKEN_URL);
-		connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("POST");
-		connection.setDoOutput(true);
-		connection.setRequestProperty("Content-Type",
-				"application/x-www-form-urlencoded");
+		SpotifyTokenConnectionBuilder builder = new SpotifyTokenConnectionBuilder();
+		HttpURLConnectionDirector director = new HttpURLConnectionDirector(builder);
+		director.makeSpotifyTokenConnection();
+		connection = builder.getResult();
 	}
 
 	private void sendRequest() throws IOException {
