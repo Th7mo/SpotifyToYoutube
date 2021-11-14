@@ -11,8 +11,6 @@ import java.util.stream.Collectors;
 
 public class SpotifyPlaylistDAO implements ISpotifyPlaylistDAO {
 
-	private final String playlistBaseURL = "https://api.spotify.com/v1/playlists/";
-
 	private HttpURLConnection connection;
 	private String accessToken;
 	private int offset = 0;
@@ -24,6 +22,7 @@ public class SpotifyPlaylistDAO implements ISpotifyPlaylistDAO {
 			throws IOException {
 		this.accessToken = accessToken;
 		this.playlistId = playlistId;
+		String playlistBaseURL = "https://api.spotify.com/v1/playlists/";
 		playlistURL = playlistBaseURL + playlistId + "/tracks?offset=";
 
 		return getCompletePlaylist();
