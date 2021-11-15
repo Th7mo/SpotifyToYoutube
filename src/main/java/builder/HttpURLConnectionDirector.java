@@ -26,4 +26,13 @@ public class HttpURLConnectionDirector {
 		builder.setRequestProperty("Authorization", "Bearer " + accessToken);
 		builder.setRequestProperty("Content-Type", "application/json");
 	}
+
+	public void makeSpotifyPlaylistTitleConnection(String accessToken)
+			throws IOException {
+		builder.openConnection();
+		builder.setRequestMethod("GET");
+		builder.setOutput(true);
+		builder.setRequestProperty("Authorization", "Bearer " + accessToken);
+		builder.setRequestProperty("Content-Type", "application/json");
+	}
 }

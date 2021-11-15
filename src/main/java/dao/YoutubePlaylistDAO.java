@@ -18,11 +18,13 @@ import java.util.List;
 public class YoutubePlaylistDAO {
 
 	private YouTube youtube;
-	private YoutubePlaylist youtubeIds;
+	private YoutubePlaylist youtubeIds = new YoutubePlaylist();
+	private SpotifyPlaylist spotifyPlaylist;
 	YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
 
-	public void postPlaylist(YoutubePlaylist youtubeIds) {
+	public void postPlaylist(YoutubePlaylist youtubeIds, SpotifyPlaylist spotifyPlaylist) {
 		this.youtubeIds = youtubeIds;
+		this.spotifyPlaylist = spotifyPlaylist;
 
 		try {
 			setYoutubeObject();
@@ -62,7 +64,7 @@ public class YoutubePlaylistDAO {
 
 	private Playlist getYoutubePlaylistObject() {
 		PlaylistSnippet playlistSnippet = new PlaylistSnippet();
-		playlistSnippet.setTitle("Copy of Spotify playlist");
+		playlistSnippet.setTitle(spotifyPlaylist.getName());
 		PlaylistStatus playlistStatus = new PlaylistStatus();
 		playlistStatus.setPrivacyStatus("private");
 		Playlist youTubePlaylist = new Playlist();
