@@ -10,12 +10,16 @@ import java.io.IOException;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
+		String playlistId = "0rBbrxmYoRfekosc63tbss";
 		SpotifyTokenDAO spotifyTokenDAO = new SpotifyTokenDAO();
 		SpotifyToken spotifyToken = spotifyTokenDAO.getToken();
+		String tokenString = spotifyToken.getAccess_token();
 		SpotifyPlaylistDAO spotifyPlaylistDAO = new SpotifyPlaylistDAO();
-		SpotifyPlaylist spotifyPlaylist = spotifyPlaylistDAO.getPlaylist(spotifyToken.getAccess_token(), "2CLV0KGCl0UwTvipE4Ibss");
+		SpotifyPlaylist spotifyPlaylist = spotifyPlaylistDAO.getPlaylist(tokenString, playlistId);
+		SpotifyPlaylistTitleDAO titleDAO = new SpotifyPlaylistTitleDAO();
+		SpotifyPlaylist playlistWithTitle = titleDAO.getPlaylistWithTitle(spotifyPlaylist, tokenString, playlistId);
 		YoutubePlaylistDAO youtubePlaylistDAO = new YoutubePlaylistDAO();
-		YoutubePlaylist youtubePlaylist = youtubePlaylistDAO.getPlaylist(spotifyPlaylist);
-		youtubePlaylistDAO.postPlaylist(youtubePlaylist);
+		YoutubePlaylist youtubePlaylist = youtubePlaylistDAO.getPlaylist(playlistWithTitle);
+		youtubePlaylistDAO.postPlaylist(youtubePlaylist, playlistWithTitle);
 	}
 }
