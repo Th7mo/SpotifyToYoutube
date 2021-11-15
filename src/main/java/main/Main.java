@@ -16,6 +16,6 @@ public class Main {
 		SpotifyPlaylist spotifyPlaylist = spotifyPlaylistDAO.getPlaylist(spotifyToken.getAccess_token(), "2CLV0KGCl0UwTvipE4Ibss");
 		YoutubePlaylistDAO youtubePlaylistDAO = new YoutubePlaylistDAO();
 		YoutubePlaylist youtubePlaylist = youtubePlaylistDAO.getPlaylist(spotifyPlaylist);
-		youtubePlaylistDAO.postPlaylist(youtubePlaylist, spotifyPlaylist);
+		youtubePlaylistDAO.postPlaylist(youtubePlaylist);
 	}
 }
