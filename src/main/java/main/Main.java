@@ -10,9 +10,6 @@ import java.io.IOException;
 public class Main {
 
 	public static void main(String[] args) throws IOException {
-//		YoutubeTokenDAO youtubeTokenDAO = new YoutubeTokenDAO();
-//		youtubeTokenDAO.getToken();
-
 		SpotifyTokenDAO spotifyTokenDAO = new SpotifyTokenDAO();
 		SpotifyToken spotifyToken = spotifyTokenDAO.getToken();
 		SpotifyPlaylistDAO spotifyPlaylistDAO = new SpotifyPlaylistDAO();

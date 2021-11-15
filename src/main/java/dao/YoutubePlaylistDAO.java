@@ -6,7 +6,6 @@ import model.YoutubeAuthorization;
 import model.YoutubePlaylist;
 import util.Authorisation;
 import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.*;
 import com.google.common.collect.Lists;
@@ -19,35 +18,35 @@ import java.util.List;
 public class YoutubePlaylistDAO {
 
 	private YouTube youtube;
-	private YoutubePlaylist playlist;
+	private YoutubePlaylist youtubeIds;
 	private SpotifyPlaylist spotifyPlaylist;
+	private YoutubePlaylistItemDAO youtubePlaylistItemDAO;
 
 	public void postPlaylist(YoutubePlaylist playlist, SpotifyPlaylist spotifyPlaylist) {
-		this.playlist = playlist;
+		this.youtubeIds = playlist;
 		this.spotifyPlaylist = spotifyPlaylist;
-
-		List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
+		this.youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
 
 		try {
-			Credential credential = Authorisation.authorize(scopes, "playlistupdates");
-			youtube = new YouTube.Builder(
-					Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, credential)
-					.setApplicationName("SpotifyToYoutube").build();
-
+			setYoutube();
+			youtubePlaylistItemDAO.setYoutube(youtube);
 			String playlistId = insertPlaylist();
 
 			for (String id : playlist.getTrackIds()) {
-				insertPlaylistItem(playlistId, id);
+				youtubePlaylistItemDAO.insertPlaylistItem(playlistId, id);
 			}
 
-		} catch (GoogleJsonResponseException e) {
-			System.err.println("There was a service error: " +
-					e.getDetails().getCode() + " : " +
-					e.getDetails().getMessage());
-			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private YouTube setYoutube() throws IOException {
+		List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
+		Credential credential = Authorisation.authorize(scopes, "playlistupdates");
+		return new YouTube.Builder(
+				Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, credential)
+				.setApplicationName("SpotifyToYoutube").build();
 	}
 
 	private String insertPlaylist() throws IOException {
@@ -59,10 +58,6 @@ public class YoutubePlaylistDAO {
 		Playlist youTubePlaylist = new Playlist();
 		youTubePlaylist.setSnippet(playlistSnippet);
 		youTubePlaylist.setStatus(playlistStatus);
-
-		// Call the API to insert the new playlist. In the API call, the first
-		// argument identifies the resource parts that the API response should
-		// contain, and the second argument is the playlist being inserted.
 		YouTube.Playlists.Insert playlistInsertCommand =
 				youtube.playlists().insert(Collections.singletonList("snippet,status"), youTubePlaylist);
 		Playlist playlistInserted = playlistInsertCommand.execute();
@@ -70,67 +65,50 @@ public class YoutubePlaylistDAO {
 		return playlistInserted.getId();
 	}
 
-	private void insertPlaylistItem(String playlistId, String videoId) throws IOException {
-		ResourceId resourceId = new ResourceId();
-		resourceId.setKind("youtube#video");
-		resourceId.setVideoId(videoId);
-
-		PlaylistItemSnippet playlistItemSnippet = new PlaylistItemSnippet();
-		playlistItemSnippet.setPlaylistId(playlistId);
-		playlistItemSnippet.setResourceId(resourceId);
-
-		PlaylistItem playlistItem = new PlaylistItem();
-		playlistItem.setSnippet(playlistItemSnippet);
-
-		YouTube.PlaylistItems.Insert playlistItemsInsertCommand = youtube.playlistItems()
-				.insert(Collections.singletonList("snippet,contentDetails"), playlistItem);
-		playlistItemsInsertCommand.execute();
-	}
-
 	public YoutubePlaylist getPlaylist(SpotifyPlaylist spotifyPlaylist) {
-		YoutubePlaylist youtubePlaylist = new YoutubePlaylist();
+		youtube = new YouTube.Builder(
+				Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, request -> {})
+				.setApplicationName("SpotifyToYoutube").build();
+		List<Item> items = spotifyPlaylist.getItems();
 
-		for (Item item : spotifyPlaylist.getItems()) {
+		for (Item item : items) {
 			try {
-				youtube = new YouTube.Builder(
-						Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, request -> {})
-						.setApplicationName("SpotifyToYoutube").build();
-
-				String queryTerm = item.getTrack().getArtist(0).getName() +
-						" " + item.getTrack().getName();
-
-				YouTube.Search.List search = youtube.search()
-						.list(Collections.singletonList("id,snippet"));
-
-				String apiKey = YoutubeAuthorization.API_KEY;
-				search.setKey(apiKey);
-				search.setQ(queryTerm);
-
-				search.setType(Collections.singletonList("video"));
-
-				search.setFields("items(id)");
-				search.setMaxResults(1L);
-
+				String queryTerm = getQueryTerm(item);
+				YouTube.Search.List search = getSearchList(queryTerm);
 				SearchListResponse searchResponse = search.execute();
 				SearchResult searchResult = searchResponse.getItems().get(0);
-
-				YoutubePlaylist partPlaylist = new YoutubePlaylist();
-				List<String> id = new ArrayList<>();
-				id.add(searchResult.getId().getVideoId());
-				partPlaylist.setTrackIds(id);
-				youtubePlaylist.join(partPlaylist);
-			} catch (GoogleJsonResponseException e) {
-				System.err.println("There was a service error: " +
-						e.getDetails().getCode() + " : " +
-						e.getDetails().getMessage());
-			} catch (IOException e) {
-				System.err.println("There was an IO error: " +
-						e.getCause() + " : " + e.getMessage());
-			} catch (Throwable t) {
-				t.printStackTrace();
+				addToYoutubeIds(searchResult);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		}
 
-		return youtubePlaylist;
+		return youtubeIds;
+	}
+
+	private YouTube.Search.List getSearchList(String queryTerm)
+			throws IOException {
+		YouTube.Search.List search = youtube.search()
+				.list(Collections.singletonList("id,snippet"));
+		search.setKey(YoutubeAuthorization.API_KEY);
+		search.setQ(queryTerm);
+		search.setType(Collections.singletonList("video"));
+		search.setFields("items(id)");
+		search.setMaxResults(1L);
+
+		return search;
+	}
+
+	private String getQueryTerm(Item item) {
+		return item.getTrack().getArtist(0).getName() +
+				" " + item.getTrack().getName();
+	}
+
+	private void addToYoutubeIds(SearchResult searchResult) {
+		YoutubePlaylist partPlaylist = new YoutubePlaylist();
+		List<String> id = new ArrayList<>();
+		id.add(searchResult.getId().getVideoId());
+		partPlaylist.setTrackIds(id);
+		youtubeIds.join(partPlaylist);
 	}
 }
