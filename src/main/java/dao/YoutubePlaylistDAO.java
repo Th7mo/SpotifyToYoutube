@@ -28,9 +28,9 @@ public class YoutubePlaylistDAO {
 		this.youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
 
 		try {
-			setYoutube();
+			setYoutubeObject();
 			youtubePlaylistItemDAO.setYoutube(youtube);
-			String playlistId = insertPlaylist();
+			String playlistId = insertEmptyPlaylist();
 
 			for (String id : playlist.getTrackIds()) {
 				youtubePlaylistItemDAO.insertPlaylistItem(playlistId, id);
@@ -41,28 +41,34 @@ public class YoutubePlaylistDAO {
 		}
 	}
 
-	private YouTube setYoutube() throws IOException {
+	private void setYoutubeObject() throws IOException {
 		List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
 		Credential credential = Authorisation.authorize(scopes, "playlistupdates");
-		return new YouTube.Builder(
+		youtube = new YouTube.Builder(
 				Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, credential)
 				.setApplicationName("SpotifyToYoutube").build();
 	}
 
-	private String insertPlaylist() throws IOException {
+	private String insertEmptyPlaylist() throws IOException {
+		Playlist youTubePlaylist = getYoutubePlaylistObject();
+		List<String> part = Collections.singletonList("snippet,status");
+		YouTube.Playlists.Insert playlistInsertCommand =
+				youtube.playlists().insert(part, youTubePlaylist);
+		Playlist playlistInserted = playlistInsertCommand.execute();
+
+		return playlistInserted.getId();
+	}
+
+	private Playlist getYoutubePlaylistObject() {
 		PlaylistSnippet playlistSnippet = new PlaylistSnippet();
 		playlistSnippet.setTitle("Copy of Spotify playlist");
 		PlaylistStatus playlistStatus = new PlaylistStatus();
 		playlistStatus.setPrivacyStatus("private");
-
 		Playlist youTubePlaylist = new Playlist();
 		youTubePlaylist.setSnippet(playlistSnippet);
 		youTubePlaylist.setStatus(playlistStatus);
-		YouTube.Playlists.Insert playlistInsertCommand =
-				youtube.playlists().insert(Collections.singletonList("snippet,status"), youTubePlaylist);
-		Playlist playlistInserted = playlistInsertCommand.execute();
 
-		return playlistInserted.getId();
+		return youTubePlaylist;
 	}
 
 	public YoutubePlaylist getPlaylist(SpotifyPlaylist spotifyPlaylist) {
@@ -86,6 +92,11 @@ public class YoutubePlaylistDAO {
 		return youtubeIds;
 	}
 
+	private String getQueryTerm(Item item) {
+		return item.getTrack().getArtist(0).getName() +
+				" " + item.getTrack().getName();
+	}
+
 	private YouTube.Search.List getSearchList(String queryTerm)
 			throws IOException {
 		YouTube.Search.List search = youtube.search()
@@ -97,11 +108,6 @@ public class YoutubePlaylistDAO {
 		search.setMaxResults(1L);
 
 		return search;
-	}
-
-	private String getQueryTerm(Item item) {
-		return item.getTrack().getArtist(0).getName() +
-				" " + item.getTrack().getName();
 	}
 
 	private void addToYoutubeIds(SearchResult searchResult) {
