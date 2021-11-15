@@ -19,25 +19,26 @@ public class YoutubePlaylistDAO {
 
 	private YouTube youtube;
 	private YoutubePlaylist youtubeIds;
-	private SpotifyPlaylist spotifyPlaylist;
-	private YoutubePlaylistItemDAO youtubePlaylistItemDAO;
+	YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
 
-	public void postPlaylist(YoutubePlaylist playlist, SpotifyPlaylist spotifyPlaylist) {
-		this.youtubeIds = playlist;
-		this.spotifyPlaylist = spotifyPlaylist;
-		this.youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
+	public void postPlaylist(YoutubePlaylist youtubeIds) {
+		this.youtubeIds = youtubeIds;
 
 		try {
 			setYoutubeObject();
 			youtubePlaylistItemDAO.setYoutube(youtube);
 			String playlistId = insertEmptyPlaylist();
-
-			for (String id : playlist.getTrackIds()) {
-				youtubePlaylistItemDAO.insertPlaylistItem(playlistId, id);
-			}
-
+			insertPlaylistItems(playlistId);
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private void insertPlaylistItems(String playlistId) throws IOException {
+		List<String> ids = youtubeIds.getTrackIds();
+
+		for (String id : ids) {
+			youtubePlaylistItemDAO.insertPlaylistItem(playlistId, id);
 		}
 	}
 
