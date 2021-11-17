@@ -13,31 +13,31 @@ import java.net.URL;
 
 public class SpotifyTokenConnectionBuilderTests {
 
-	private HttpURLConnection connection;
+    private HttpURLConnection connection;
 
-	@BeforeEach
-	public void setUp() throws IOException {
-		setUpExpectedConnection();
-	}
+    @BeforeEach
+    public void setUp() throws IOException {
+        setUpExpectedConnection();
+    }
 
-	private void setUpExpectedConnection() throws IOException {
-		URL url = new URL(SpotifyAuthorizationOptions.TOKEN_URL);
-		connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("POST");
-		connection.setDoOutput(true);
-		connection.setRequestProperty("Content-Type",
-				"application/x-www-form-urlencoded");
-	}
+    private void setUpExpectedConnection() throws IOException {
+        URL url = new URL(SpotifyAuthorizationOptions.TOKEN_URL);
+        connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("POST");
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-Type",
+                "application/x-www-form-urlencoded");
+    }
 
-	@Test
-	public void shouldMatchManuallyBuiltConnection() throws IOException {
-		SpotifyTokenConnectionBuilder builder = new SpotifyTokenConnectionBuilder();
-		builder.openConnection();
-		builder.setRequestMethod("POST");
-		builder.setOutput(true);
-		builder.setRequestProperty("Content-Type",
-				"application/x-www-form-urlencoded");
+    @Test
+    public void shouldMatchManuallyBuiltConnection() throws IOException {
+        SpotifyTokenConnectionBuilder builder = new SpotifyTokenConnectionBuilder();
+        builder.openConnection();
+        builder.setRequestMethod("POST");
+        builder.setOutput(true);
+        builder.setRequestProperty("Content-Type",
+                "application/x-www-form-urlencoded");
 
-		assertEquals(connection.toString(), builder.getResult().toString());
-	}
+        assertEquals(connection.toString(), builder.getResult().toString());
+    }
 }

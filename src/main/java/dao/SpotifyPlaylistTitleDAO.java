@@ -20,8 +20,8 @@ public class SpotifyPlaylistTitleDAO {
 	private HttpURLConnection connection;
 
 	public SpotifyPlaylist getPlaylistWithTitle(SpotifyPlaylist playlist,
-									   String accessToken, String playlistId)
-			throws IOException {
+												String accessToken,
+												String playlistId) throws IOException {
 		this.playlist = playlist;
 		this.accessToken = accessToken;
 		this.playlistId = playlistId;

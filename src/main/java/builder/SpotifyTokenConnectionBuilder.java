@@ -8,30 +8,30 @@ import java.net.URL;
 
 public class SpotifyTokenConnectionBuilder implements HttpURLConnectionBuilder {
 
-	private HttpURLConnection connection;
+    private HttpURLConnection connection;
 
-	@Override
-	public void openConnection() throws IOException {
-		URL url = new URL(SpotifyAuthorizationOptions.TOKEN_URL);
-		connection = (HttpURLConnection) url.openConnection();
-	}
+    @Override
+    public void openConnection() throws IOException {
+        URL url = new URL(SpotifyAuthorizationOptions.TOKEN_URL);
+        connection = (HttpURLConnection) url.openConnection();
+    }
 
-	@Override
-	public void setRequestMethod(String requestMethod) throws IOException {
-		connection.setRequestMethod(requestMethod);
-	}
+    @Override
+    public void setRequestMethod(String requestMethod) throws IOException {
+        connection.setRequestMethod(requestMethod);
+    }
 
-	@Override
-	public void setOutput(boolean isOutputConnection) {
-		connection.setDoOutput(isOutputConnection);
-	}
+    @Override
+    public void setOutput(boolean isOutputConnection) {
+        connection.setDoOutput(isOutputConnection);
+    }
 
-	@Override
-	public void setRequestProperty(String key, String value) {
-		connection.setRequestProperty(key, value);
-	}
+    @Override
+    public void setRequestProperty(String key, String value) {
+        connection.setRequestProperty(key, value);
+    }
 
-	public HttpURLConnection getResult() {
-		return connection;
-	}
+    public HttpURLConnection getResult() {
+        return connection;
+    }
 }
