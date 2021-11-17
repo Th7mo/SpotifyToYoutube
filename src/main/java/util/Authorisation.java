@@ -18,54 +18,54 @@ import java.util.List;
 
 public class Authorisation {
 
-	public static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
-	public static final JsonFactory JSON_FACTORY = new JacksonFactory();
-	private static final String CREDENTIALS_DIRECTORY = ".oauth-credentials";
-	private static GoogleClientSecrets clientSecrets;
-	private static List<String> scopes;
-	private static DataStore<StoredCredential> dataStore;
+    public static final HttpTransport HTTP_TRANSPORT = new NetHttpTransport();
+    public static final JsonFactory JSON_FACTORY = new JacksonFactory();
+    private static final String CREDENTIALS_DIRECTORY = ".oauth-credentials";
+    private static GoogleClientSecrets clientSecrets;
+    private static List<String> scopes;
+    private static DataStore<StoredCredential> dataStore;
 
-	public static Credential authorize(List<String> scopes,
-									   String credentialDatastore) throws IOException {
-		Authorisation.scopes = scopes;
-		loadCredentials();
+    public static Credential authorize(List<String> scopes,
+                                       String credentialDatastore) throws IOException {
+        Authorisation.scopes = scopes;
+        loadCredentials();
 
-		return makeAuthorization(credentialDatastore);
-	}
+        return makeAuthorization(credentialDatastore);
+    }
 
-	private static void loadCredentials() throws IOException {
-		InputStream inputStream = getClientSecretInputStream();
-		Reader clientSecretReader = new InputStreamReader(inputStream);
-		clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, clientSecretReader);
-	}
+    private static void loadCredentials() throws IOException {
+        InputStream inputStream = getClientSecretInputStream();
+        Reader clientSecretReader = new InputStreamReader(inputStream);
+        clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, clientSecretReader);
+    }
 
-	private static InputStream getClientSecretInputStream() {
-		return Authorisation.class.getResourceAsStream("/client_secrets.json");
-	}
+    private static InputStream getClientSecretInputStream() {
+        return Authorisation.class.getResourceAsStream("/client_secrets.json");
+    }
 
-	private static Credential makeAuthorization(String credentialDatastore)
-			throws IOException {
-		File oathFile = new File(getCredentialsDirectory());
-		FileDataStoreFactory fileDataStoreFactory = new FileDataStoreFactory(oathFile);
-		dataStore = fileDataStoreFactory.getDataStore(credentialDatastore);
-		GoogleAuthorizationCodeFlow flow = getCodeFlow();
-		LocalServerReceiver localReceiver = getLocalServerReceiver();
+    private static Credential makeAuthorization(String credentialDatastore)
+            throws IOException {
+        File oathFile = new File(getCredentialsDirectory());
+        FileDataStoreFactory fileDataStoreFactory = new FileDataStoreFactory(oathFile);
+        dataStore = fileDataStoreFactory.getDataStore(credentialDatastore);
+        GoogleAuthorizationCodeFlow flow = getCodeFlow();
+        LocalServerReceiver localReceiver = getLocalServerReceiver();
 
-		return new AuthorizationCodeInstalledApp(flow, localReceiver).authorize("user");
-	}
+        return new AuthorizationCodeInstalledApp(flow, localReceiver).authorize("user");
+    }
 
-	private static String getCredentialsDirectory() {
-		return System.getProperty("user.home") + "/" + CREDENTIALS_DIRECTORY;
-	}
+    private static String getCredentialsDirectory() {
+        return System.getProperty("user.home") + "/" + CREDENTIALS_DIRECTORY;
+    }
 
-	private static GoogleAuthorizationCodeFlow getCodeFlow() {
-		return new GoogleAuthorizationCodeFlow.Builder(
-				HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes)
-				.setCredentialDataStore(dataStore)
-				.build();
-	}
+    private static GoogleAuthorizationCodeFlow getCodeFlow() {
+        return new GoogleAuthorizationCodeFlow.Builder(
+                HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes)
+                .setCredentialDataStore(dataStore)
+                .build();
+    }
 
-	private static LocalServerReceiver getLocalServerReceiver() {
-		return new LocalServerReceiver.Builder().setPort(8080).build();
-	}
+    private static LocalServerReceiver getLocalServerReceiver() {
+        return new LocalServerReceiver.Builder().setPort(8080).build();
+    }
 }

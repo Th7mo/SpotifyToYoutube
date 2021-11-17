@@ -6,5 +6,5 @@ import java.io.IOException;
 
 public interface ISpotifyPlaylistDAO {
 
-	SpotifyPlaylist getPlaylist(String accessToken, String playlistId) throws IOException;
+    SpotifyPlaylist getPlaylist(String accessToken, String playlistId) throws IOException;
 }

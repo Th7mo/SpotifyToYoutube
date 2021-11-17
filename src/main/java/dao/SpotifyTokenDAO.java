@@ -15,57 +15,57 @@ import java.util.stream.Collectors;
 
 public class SpotifyTokenDAO implements TokenDAO {
 
-	private HttpURLConnection connection;
+    private HttpURLConnection connection;
 
-	@Override
-	public SpotifyToken getToken() throws IOException, BadRequestException {
-		initializeConnection();
-		sendRequest();
-		SpotifyTokenDAOExceptionHandler.handleStatusCodes(connection);
-		String responseJson = getResponse();
+    @Override
+    public SpotifyToken getToken() throws BadRequestException, IOException {
+        initializeConnection();
+        sendRequest();
+        SpotifyTokenDAOExceptionHandler.handleStatusCodes(connection);
+        String responseJson = getResponse();
 
-		return getBuildSpotifyToken(responseJson);
-	}
+        return getBuildSpotifyToken(responseJson);
+    }
 
-	private void initializeConnection() throws IOException {
-		SpotifyTokenConnectionBuilder builder = new SpotifyTokenConnectionBuilder();
-		HttpURLConnectionDirector director = new HttpURLConnectionDirector(builder);
-		director.makeSpotifyTokenConnection();
-		connection = builder.getResult();
-	}
+    private void initializeConnection() throws IOException {
+        SpotifyTokenConnectionBuilder builder = new SpotifyTokenConnectionBuilder();
+        HttpURLConnectionDirector director = new HttpURLConnectionDirector(builder);
+        director.makeSpotifyTokenConnection();
+        connection = builder.getResult();
+    }
 
-	private void sendRequest() throws IOException {
-		OutputStream outputStream = connection.getOutputStream();
-		outputStream.write(getRequestData());
-	}
+    private void sendRequest() throws IOException {
+        OutputStream outputStream = connection.getOutputStream();
+        outputStream.write(getRequestData());
+    }
 
-	private byte[] getRequestData() {
-		String request = "grant_type=client_credentials&client_id=" +
-				SpotifyAuthorizationOptions.CLIENT_ID +
-				"&client_secret=" +
-				SpotifyAuthorizationOptions.CLIENT_SECRET;
+    private byte[] getRequestData() {
+        String request = "grant_type=client_credentials&client_id=" +
+                SpotifyAuthorizationOptions.CLIENT_ID +
+                "&client_secret=" +
+                SpotifyAuthorizationOptions.CLIENT_SECRET;
 
-		return request.getBytes(StandardCharsets.UTF_8);
-	}
+        return request.getBytes(StandardCharsets.UTF_8);
+    }
 
-	private String getResponse() throws IOException {
-		BufferedReader reader = getBufferedReader();
+    private String getResponse() throws IOException {
+        BufferedReader reader = getBufferedReader();
 
-		return buildResponseString(reader);
-	}
+        return buildResponseString(reader);
+    }
 
-	private BufferedReader getBufferedReader() throws IOException {
-		InputStream inputStream = connection.getInputStream();
-		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+    private BufferedReader getBufferedReader() throws IOException {
+        InputStream inputStream = connection.getInputStream();
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
 
-		return new BufferedReader(inputStreamReader);
-	}
+        return new BufferedReader(inputStreamReader);
+    }
 
-	private String buildResponseString(BufferedReader reader) {
-		return reader.lines().collect(Collectors.joining());
-	}
+    private String buildResponseString(BufferedReader reader) {
+        return reader.lines().collect(Collectors.joining());
+    }
 
-	private SpotifyToken getBuildSpotifyToken(String json) {
-		return new Gson().fromJson(json, SpotifyToken.class);
-	}
+    private SpotifyToken getBuildSpotifyToken(String json) {
+        return new Gson().fromJson(json, SpotifyToken.class);
+    }
 }
