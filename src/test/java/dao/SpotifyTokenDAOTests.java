@@ -1,6 +1,5 @@
 package dao;
 
-import com.google.gson.Gson;
 import model.SpotifyCredentials;
 import model.SpotifyToken;
 import exception.*;
