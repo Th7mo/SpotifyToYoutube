@@ -12,7 +12,6 @@ public class ApplicationController {
     public void convert() throws IOException {
         spotifyController.setSpotifyPlaylist();
         SpotifyPlaylist spotifyPlaylist = spotifyController.getSpotifyPlaylist();
-        youtubeController.saveYoutubeCredentials();
         youtubeController.postPlaylist(spotifyPlaylist);
     }
 }
