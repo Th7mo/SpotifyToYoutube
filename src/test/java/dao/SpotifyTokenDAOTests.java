@@ -1,6 +1,7 @@
 package dao;
 
-import model.SpotifyAuthorizationOptions;
+import com.google.gson.Gson;
+import model.SpotifyCredentials;
 import model.SpotifyToken;
 import exception.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,17 +15,19 @@ public class SpotifyTokenDAOTests {
 
     private SpotifyTokenDAO spotifyTokenDAO;
     private SpotifyToken spotifyToken;
+    private SpotifyCredentials credentials;
 
     @BeforeEach
     public void setUp() {
         resetAuthenticationOptions();
         spotifyTokenDAO = new SpotifyTokenDAO();
+        credentials = new SpotifyCredentials();
     }
 
     private void resetAuthenticationOptions() {
-        SpotifyAuthorizationOptions.CLIENT_ID = "4299b9c3763b4311b4cffa528525e61c";
-        SpotifyAuthorizationOptions.CLIENT_SECRET = "63842318a1944c2eb815a38a6e978730";
-        SpotifyAuthorizationOptions.TOKEN_URL = "https://accounts.spotify.com/api/token";
+        credentials.setClientId("4299b9c3763b4311b4cffa528525e61c");
+        credentials.setClientSecret("63842318a1944c2eb815a38a6e978730");
+        credentials.setTokenUrl("https://accounts.spotify.com/api/token");
     }
 
     @Test
@@ -78,7 +81,7 @@ public class SpotifyTokenDAOTests {
 
     @Test()
     public void shouldThrowExceptionWhenClientIdIsInvalid() {
-        SpotifyAuthorizationOptions.CLIENT_ID = "invalidClientId";
+        credentials.setClientId("invalidClientId");
 
         assertThrows(InvalidCredentialsForTokenException.class, () -> {
             spotifyToken = spotifyTokenDAO.getToken();
@@ -87,7 +90,7 @@ public class SpotifyTokenDAOTests {
 
     @Test()
     public void shouldThrowExceptionWhenClientSecretIsInvalid() {
-        SpotifyAuthorizationOptions.CLIENT_SECRET = "invalidClientSecret";
+        credentials.setClientSecret("invalidClientSecret");
 
         assertThrows(InvalidCredentialsForTokenException.class, () -> {
             spotifyToken = spotifyTokenDAO.getToken();
@@ -96,7 +99,7 @@ public class SpotifyTokenDAOTests {
 
     @Test
     public void shouldThrowInvalidRequestTokenPathException() {
-        SpotifyAuthorizationOptions.TOKEN_URL = "https://google.com";
+        credentials.setTokenUrl("https://google.com");
 
         assertThrows(InvalidRequestTokenPathException.class, () -> {
             spotifyToken = spotifyTokenDAO.getToken();
