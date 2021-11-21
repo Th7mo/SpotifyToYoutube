@@ -2,7 +2,7 @@ package dao;
 
 import model.Item;
 import model.SpotifyPlaylist;
-import model.YoutubeAuthorization;
+import model.YoutubeCredentials;
 import model.YoutubePlaylist;
 import util.Authorisation;
 import com.google.api.client.auth.oauth2.Credential;
@@ -20,9 +20,11 @@ public class YoutubePlaylistDAO {
     private YouTube youtube;
     private YoutubePlaylist youtubeIds = new YoutubePlaylist();
     private SpotifyPlaylist spotifyPlaylist;
-    YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
+    private final YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
+    private YoutubeCredentials credentials;
 
-    public void postPlaylist(YoutubePlaylist youtubeIds, SpotifyPlaylist spotifyPlaylist) {
+    public void postPlaylist(YoutubePlaylist youtubeIds,
+                             SpotifyPlaylist spotifyPlaylist) {
         this.youtubeIds = youtubeIds;
         this.spotifyPlaylist = spotifyPlaylist;
 
@@ -104,7 +106,7 @@ public class YoutubePlaylistDAO {
             throws IOException {
         YouTube.Search.List search = youtube.search()
                 .list(Collections.singletonList("id,snippet"));
-        search.setKey(YoutubeAuthorization.API_KEY);
+        search.setKey(credentials.getApiKey());
         search.setQ(queryTerm);
         search.setType(Collections.singletonList("video"));
         search.setFields("items(id)");
@@ -119,5 +121,9 @@ public class YoutubePlaylistDAO {
         id.add(searchResult.getId().getVideoId());
         partPlaylist.setTrackIds(id);
         youtubeIds.join(partPlaylist);
+    }
+
+    public void setCredentials(YoutubeCredentials credentials) {
+        this.credentials = credentials;
     }
 }
