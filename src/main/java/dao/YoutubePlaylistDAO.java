@@ -2,27 +2,26 @@ package dao;
 
 import model.Item;
 import model.SpotifyPlaylist;
-import model.YoutubeAuthorization;
 import model.YoutubePlaylist;
 import util.Authorisation;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.*;
 import com.google.common.collect.Lists;
+import util.JsonService;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class YoutubePlaylistDAO {
 
     private YouTube youtube;
     private YoutubePlaylist youtubeIds = new YoutubePlaylist();
     private SpotifyPlaylist spotifyPlaylist;
-    YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
+    private final YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
 
-    public void postPlaylist(YoutubePlaylist youtubeIds, SpotifyPlaylist spotifyPlaylist) {
+    public void postPlaylist(YoutubePlaylist youtubeIds,
+                             SpotifyPlaylist spotifyPlaylist) {
         this.youtubeIds = youtubeIds;
         this.spotifyPlaylist = spotifyPlaylist;
 
@@ -104,7 +103,8 @@ public class YoutubePlaylistDAO {
             throws IOException {
         YouTube.Search.List search = youtube.search()
                 .list(Collections.singletonList("id,snippet"));
-        search.setKey(YoutubeAuthorization.API_KEY);
+        String key = JsonService.getValueOfKey("/youtube_api_key.json");
+        search.setKey(key);
         search.setQ(queryTerm);
         search.setType(Collections.singletonList("video"));
         search.setFields("items(id)");
