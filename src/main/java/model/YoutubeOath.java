@@ -1,6 +1,6 @@
 package model;
 
-public class Installed {
+public class YoutubeOath {
 
     private String client_id;
     private String client_secret;

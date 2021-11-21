@@ -2,7 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import dao.YoutubePlaylistDAO;
-import model.Installed;
+import model.YoutubeOath;
 import model.SpotifyPlaylist;
 import model.YoutubeCredentials;
 import model.YoutubePlaylist;
@@ -16,13 +16,14 @@ public class YoutubeController {
     private YoutubeCredentials credentials;
 
     public void saveYoutubeCredentials() throws IOException {
+        String pathToCredentials = "src/main/resources/youtube_credentials.json";
         credentials = new YoutubeCredentials();
         credentials.setApiKey(YoutubeCredentialsView.getApiKey());
-        Installed installed = new Installed();
-        installed.setClient_id(YoutubeCredentialsView.getClientId());
-        installed.setClient_secret(YoutubeCredentialsView.getClientSecret());
-        credentials.setInstalled(installed);
-        BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/resources/youtube_credentials.json"));
+        YoutubeOath oath = new YoutubeOath();
+        oath.setClient_id(YoutubeCredentialsView.getClientId());
+        oath.setClient_secret(YoutubeCredentialsView.getClientSecret());
+        credentials.setInstalled(oath);
+        BufferedWriter writer = new BufferedWriter(new FileWriter(pathToCredentials));
         String json = new Gson().toJson(credentials);
         writer.write(json);
         writer.close();

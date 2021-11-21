@@ -2,14 +2,14 @@ package model;
 
 public class YoutubeCredentials {
 
-    private Installed installed;
+    private YoutubeOath installed;
     private String apiKey;
 
-    public Installed getInstalled() {
+    public YoutubeOath getInstalled() {
         return installed;
     }
 
-    public void setInstalled(Installed installed) {
+    public void setInstalled(YoutubeOath installed) {
         this.installed = installed;
     }
 
