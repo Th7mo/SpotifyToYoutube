@@ -2,7 +2,6 @@ package builder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import com.google.gson.Gson;
 import model.SpotifyCredentials;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

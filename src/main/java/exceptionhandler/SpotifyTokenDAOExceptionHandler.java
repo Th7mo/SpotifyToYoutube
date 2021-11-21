@@ -1,6 +1,5 @@
 package exceptionhandler;
 
-import com.google.gson.Gson;
 import enumerator.StatusCode;
 import exception.*;
 import model.SpotifyCredentials;
@@ -16,7 +15,7 @@ public class SpotifyTokenDAOExceptionHandler {
     public static void handleStatusCodes(HttpURLConnection connection)
             throws IOException, BadRequestException {
         SpotifyTokenDAOExceptionHandler.connection = connection;
-        SpotifyCredentials credentials = new SpotifyCredentials();
+        SpotifyTokenDAOExceptionHandler.credentials = new SpotifyCredentials();
         credentials.setCredentials();
         int responseCode = getResponseCode();
 
