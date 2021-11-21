@@ -2,18 +2,16 @@ package dao;
 
 import model.Item;
 import model.SpotifyPlaylist;
-import model.YoutubeCredentials;
 import model.YoutubePlaylist;
 import util.Authorisation;
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.*;
 import com.google.common.collect.Lists;
+import util.JsonService;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.io.*;
+import java.util.*;
 
 public class YoutubePlaylistDAO {
 
@@ -21,7 +19,6 @@ public class YoutubePlaylistDAO {
     private YoutubePlaylist youtubeIds = new YoutubePlaylist();
     private SpotifyPlaylist spotifyPlaylist;
     private final YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
-    private YoutubeCredentials credentials;
 
     public void postPlaylist(YoutubePlaylist youtubeIds,
                              SpotifyPlaylist spotifyPlaylist) {
@@ -106,7 +103,8 @@ public class YoutubePlaylistDAO {
             throws IOException {
         YouTube.Search.List search = youtube.search()
                 .list(Collections.singletonList("id,snippet"));
-        search.setKey(credentials.getApiKey());
+        String key = JsonService.getValueOfKey("/youtube_api_key.json");
+        search.setKey(key);
         search.setQ(queryTerm);
         search.setType(Collections.singletonList("video"));
         search.setFields("items(id)");
@@ -121,9 +119,5 @@ public class YoutubePlaylistDAO {
         id.add(searchResult.getId().getVideoId());
         partPlaylist.setTrackIds(id);
         youtubeIds.join(partPlaylist);
-    }
-
-    public void setCredentials(YoutubeCredentials credentials) {
-        this.credentials = credentials;
     }
 }
