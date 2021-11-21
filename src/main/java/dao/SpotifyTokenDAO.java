@@ -2,7 +2,7 @@ package dao;
 
 import builder.HttpURLConnectionDirector;
 import builder.SpotifyTokenConnectionBuilder;
-import model.SpotifyAuthorizationOptions;
+import model.SpotifyCredentials;
 import model.SpotifyToken;
 import exception.*;
 import exceptionhandler.SpotifyTokenDAOExceptionHandler;
@@ -39,11 +39,13 @@ public class SpotifyTokenDAO implements TokenDAO {
         outputStream.write(getRequestData());
     }
 
-    private byte[] getRequestData() {
+    private byte[] getRequestData() throws IOException {
+        SpotifyCredentials credentials = new SpotifyCredentials();
+        credentials.setCredentials();
         String request = "grant_type=client_credentials&client_id=" +
-                SpotifyAuthorizationOptions.CLIENT_ID +
+                credentials.getClientId() +
                 "&client_secret=" +
-                SpotifyAuthorizationOptions.CLIENT_SECRET;
+                credentials.getClientSecret();
 
         return request.getBytes(StandardCharsets.UTF_8);
     }
