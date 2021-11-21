@@ -1,9 +1,9 @@
 package builder;
 
-import model.SpotifyAuthorizationOptions;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.google.gson.Gson;
+import model.SpotifyCredentials;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,14 +14,16 @@ import java.net.URL;
 public class SpotifyTokenConnectionBuilderTests {
 
     private HttpURLConnection connection;
+    private SpotifyCredentials credentials;
 
     @BeforeEach
     public void setUp() throws IOException {
         setUpExpectedConnection();
+        credentials = new SpotifyCredentials();
     }
 
     private void setUpExpectedConnection() throws IOException {
-        URL url = new URL(SpotifyAuthorizationOptions.TOKEN_URL);
+        URL url = new URL(credentials.getTokenUrl());
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
