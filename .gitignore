@@ -4,7 +4,10 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 *.bin
+
+### Youtube Credentials ###
 youtube_credentials.json
+youtube_api_key.json
 
 ### STS ###
 .apt_generated
