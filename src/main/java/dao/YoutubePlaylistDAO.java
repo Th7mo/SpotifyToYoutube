@@ -103,7 +103,8 @@ public class YoutubePlaylistDAO {
             throws IOException {
         YouTube.Search.List search = youtube.search()
                 .list(Collections.singletonList("id,snippet"));
-        String key = JsonService.getValueOfKey("key", "youtube_api_key.json");
+        String json = JsonService.getJsonFromResource("youtube_api_key.json");
+        String key = JsonService.getValueOfKey("key", json);
         search.setKey(key);
         search.setQ(queryTerm);
         search.setType(Collections.singletonList("video"));

@@ -1,17 +1,16 @@
 package model;
 
-import com.google.gson.Gson;
-
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.stream.Collectors;
+import util.JsonService;
 
 public class SpotifyCredentials {
 
     private String clientId;
     private String clientSecret;
     private String tokenUrl;
+
+    public SpotifyCredentials() {
+        setCredentials();
+    }
 
     public String getClientId() {
         return clientId;
@@ -37,19 +36,10 @@ public class SpotifyCredentials {
         this.tokenUrl = tokenUrl;
     }
 
-    public void setCredentials() {
-        String fileName = "spotify_credentials.json";
-        InputStream inputStream = getFileAsInputStream(fileName);
-        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-        String json = reader.lines().collect(Collectors.joining("\n"));
-        SpotifyCredentials credentials = new Gson().fromJson(json, SpotifyCredentials.class);
-        clientId = credentials.getClientId();
-        clientSecret = credentials.getClientSecret();
-        tokenUrl = credentials.getTokenUrl();
-    }
-
-    private InputStream getFileAsInputStream(final String fileName) {
-        return this.getClass().getClassLoader().getResourceAsStream(fileName);
+    private void setCredentials() {
+        String json = JsonService.getJsonFromResource("spotify_credentials.json");
+        clientId = JsonService.getValueOfKey("clientId", json);
+        clientSecret = JsonService.getValueOfKey("clientSecret", json);
+        tokenUrl = JsonService.getValueOfKey("tokenUrl", json);
     }
 }
