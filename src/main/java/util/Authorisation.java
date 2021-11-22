@@ -40,7 +40,7 @@ public class Authorisation {
     }
 
     private static InputStream getClientSecretInputStream() {
-        return Authorisation.class.getResourceAsStream("/youtube_credentials.json");
+        return Authorisation.class.getClassLoader().getResourceAsStream("youtube_credentials.json");
     }
 
     private static Credential makeAuthorization(String credentialDatastore)
