@@ -11,18 +11,22 @@ import java.util.stream.Collectors;
 
 public class JsonService {
 
-    public static String getValueOfKey(final String key, final String fileName) {
-        InputStream stream = getFileAsInputStream(fileName);
-        InputStreamReader inputStreamReader = new InputStreamReader(stream);
-        BufferedReader reader = new BufferedReader(inputStreamReader);
-        String json = reader.lines().collect(Collectors.joining("\n"));
-        JsonElement element = JsonParser.parseString(json);
-        JsonObject obj = element.getAsJsonObject();
+    public static String getJsonFromResource(final String fileName) {
+        InputStream inputStream = getFileAsInputStream(fileName);
+        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-        return obj.get(key).getAsString();
+        return bufferedReader.lines().collect(Collectors.joining("\n"));
     }
 
     private static InputStream getFileAsInputStream(final String fileName) {
         return JsonService.class.getClassLoader().getResourceAsStream(fileName);
+    }
+
+    public static String getValueOfKey(final String key, final String json) {
+        JsonElement element = JsonParser.parseString(json);
+        JsonObject jsonObject = element.getAsJsonObject();
+
+        return jsonObject.get(key).getAsString();
     }
 }
