@@ -72,7 +72,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>main.Main</mainClass>
+                            <mainClass>nl.th7mo.convert.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
