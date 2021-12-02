@@ -1,16 +1,18 @@
 package model;
 
-import com.google.gson.Gson;
+import util.JsonService;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.FileNotFoundException;
 
 public class SpotifyCredentials {
 
     private String clientId;
     private String clientSecret;
     private String tokenUrl;
+
+    public SpotifyCredentials() throws FileNotFoundException {
+        setCredentials();
+    }
 
     public String getClientId() {
         return clientId;
@@ -36,12 +38,10 @@ public class SpotifyCredentials {
         this.tokenUrl = tokenUrl;
     }
 
-    public void setCredentials() throws IOException {
-        String pathToJson = "src/main/resources/spotify_credentials.json";
-        String json = new String(Files.readAllBytes(Paths.get(pathToJson)));
-        SpotifyCredentials credentials = new Gson().fromJson(json, SpotifyCredentials.class);
-        clientId = credentials.getClientId();
-        clientSecret = credentials.getClientSecret();
-        tokenUrl = credentials.getTokenUrl();
+    private void setCredentials() throws FileNotFoundException {
+        String json = JsonService.getJsonFromResource("spotify_credentials.json");
+        clientId = JsonService.getValueOfKey("clientId", json);
+        clientSecret = JsonService.getValueOfKey("clientSecret", json);
+        tokenUrl = JsonService.getValueOfKey("tokenUrl", json);
     }
 }

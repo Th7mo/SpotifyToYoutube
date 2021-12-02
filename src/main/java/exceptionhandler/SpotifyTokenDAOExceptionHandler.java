@@ -16,7 +16,6 @@ public class SpotifyTokenDAOExceptionHandler {
             throws IOException, BadRequestException {
         SpotifyTokenDAOExceptionHandler.connection = connection;
         SpotifyTokenDAOExceptionHandler.credentials = new SpotifyCredentials();
-        credentials.setCredentials();
         int responseCode = getResponseCode();
 
         if (responseCode != StatusCode.OK.codeNumber()) {
