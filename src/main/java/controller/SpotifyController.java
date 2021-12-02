@@ -5,7 +5,6 @@ import dao.SpotifyPlaylistTitleDAO;
 import dao.SpotifyTokenDAO;
 import model.SpotifyPlaylist;
 import model.SpotifyToken;
-import view.SpotifyPlaylistIdView;
 
 import java.io.IOException;
 
@@ -18,10 +17,10 @@ public class SpotifyController {
     private SpotifyToken token;
     private String playlistId;
 
-    public void setSpotifyPlaylist() throws IOException {
+    public void setSpotifyPlaylist(String playlistId) throws IOException {
+        this.playlistId = playlistId;
         token = tokenDAO.getToken();
         String tokenString = token.getAccess_token();
-        getPlaylistId();
         spotifyPlaylist = playlistDAO.getPlaylist(tokenString, playlistId);
         addTitleToPlaylist();
     }
@@ -30,10 +29,6 @@ public class SpotifyController {
         String tokenString = token.getAccess_token();
         spotifyPlaylist = titleDAO.getPlaylistWithTitle(spotifyPlaylist,
                 tokenString, playlistId);
-    }
-
-    private void getPlaylistId() {
-        playlistId = SpotifyPlaylistIdView.getUserInput();
     }
 
     public SpotifyPlaylist getSpotifyPlaylist() {

@@ -34,13 +34,8 @@ public class Authorisation {
     }
 
     private static void loadCredentials() throws IOException {
-        InputStream inputStream = getClientSecretInputStream();
-        Reader clientSecretReader = new InputStreamReader(inputStream);
-        clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, clientSecretReader);
-    }
-
-    private static InputStream getClientSecretInputStream() {
-        return Authorisation.class.getClassLoader().getResourceAsStream("youtube_credentials.json");
+        FileReader reader = new FileReader("./youtube_credentials.json");
+        clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, reader);
     }
 
     private static Credential makeAuthorization(String credentialDatastore)

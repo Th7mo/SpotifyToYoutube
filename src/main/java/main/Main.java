@@ -1,12 +1,11 @@
 package main;
 
-import controller.ApplicationController;
-
-import java.io.IOException;
+import picocli.CommandLine;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
-        new ApplicationController().convert();
+    public static void main(String[] args) {
+        int exitCode = new CommandLine(new SpotifyToYoutube()).execute(args);
+        System.exit(exitCode);
     }
 }

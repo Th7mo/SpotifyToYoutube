@@ -2,13 +2,15 @@ package model;
 
 import util.JsonService;
 
+import java.io.FileNotFoundException;
+
 public class SpotifyCredentials {
 
     private String clientId;
     private String clientSecret;
     private String tokenUrl;
 
-    public SpotifyCredentials() {
+    public SpotifyCredentials() throws FileNotFoundException {
         setCredentials();
     }
 
@@ -36,7 +38,7 @@ public class SpotifyCredentials {
         this.tokenUrl = tokenUrl;
     }
 
-    private void setCredentials() {
+    private void setCredentials() throws FileNotFoundException {
         String json = JsonService.getJsonFromResource("spotify_credentials.json");
         clientId = JsonService.getValueOfKey("clientId", json);
         clientSecret = JsonService.getValueOfKey("clientSecret", json);
