@@ -4,7 +4,6 @@ import dao.YoutubePlaylistDAO;
 import model.SpotifyPlaylist;
 import model.YoutubePlaylist;
 
-
 public class YoutubeController {
 
     private final YoutubePlaylistDAO playlistDAO = new YoutubePlaylistDAO();
