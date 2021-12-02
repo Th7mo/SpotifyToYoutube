@@ -1,7 +1,8 @@
 package builder;
 
-import dao.SpotifyTokenDAO;
-import model.SpotifyToken;
+import nl.th7mo.connection.SpotifyPlaylistConnectionBuilder;
+import nl.th7mo.spotify.SpotifyTokenDAO;
+import nl.th7mo.spotify.SpotifyToken;
 
 import static org.junit.jupiter.api.Assertions.*;
 

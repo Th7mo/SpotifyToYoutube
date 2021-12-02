@@ -1,12 +1,14 @@
 package dao;
 
-import model.SpotifyPlaylist;
-import model.SpotifyToken;
+import nl.th7mo.spotify.SpotifyPlaylist;
+import nl.th7mo.spotify.SpotifyPlaylistTitleDAO;
+import nl.th7mo.spotify.SpotifyToken;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import nl.th7mo.spotify.SpotifyTokenDAO;
 
 import java.io.IOException;
 
