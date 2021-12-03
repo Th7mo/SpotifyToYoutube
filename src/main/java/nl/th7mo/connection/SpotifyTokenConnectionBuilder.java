@@ -12,8 +12,7 @@ public class SpotifyTokenConnectionBuilder implements HttpURLConnectionBuilder {
 
     @Override
     public void openConnection() throws IOException {
-        SpotifyCredentials credentials = new SpotifyCredentials();
-        URL url = new URL(credentials.getTokenUrl());
+        URL url = new URL(SpotifyCredentials.TOKEN_URL);
         connection = (HttpURLConnection) url.openConnection();
     }
 

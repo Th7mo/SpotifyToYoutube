@@ -17,19 +17,10 @@ public class SpotifyTokenDAOTests {
 
     private SpotifyTokenDAO spotifyTokenDAO;
     private SpotifyToken spotifyToken;
-    private SpotifyCredentials credentials;
 
     @BeforeEach
-    public void setUp() throws FileNotFoundException {
-        resetAuthenticationOptions();
+    public void setUp() {
         spotifyTokenDAO = new SpotifyTokenDAO();
-        credentials = new SpotifyCredentials();
-    }
-
-    private void resetAuthenticationOptions() {
-        credentials.setClientId("4299b9c3763b4311b4cffa528525e61c");
-        credentials.setClientSecret("63842318a1944c2eb815a38a6e978730");
-        credentials.setTokenUrl("https://accounts.spotify.com/api/token");
     }
 
     @Test
@@ -79,32 +70,5 @@ public class SpotifyTokenDAOTests {
         String token_type = spotifyToken.getToken_type();
 
         assertEquals(token_type, expectedTokenType);
-    }
-
-    @Test()
-    public void shouldThrowExceptionWhenClientIdIsInvalid() {
-        credentials.setClientId("invalidClientId");
-
-        assertThrows(InvalidCredentialsForTokenException.class, () -> {
-            spotifyToken = spotifyTokenDAO.getToken();
-        });
-    }
-
-    @Test()
-    public void shouldThrowExceptionWhenClientSecretIsInvalid() {
-        credentials.setClientSecret("invalidClientSecret");
-
-        assertThrows(InvalidCredentialsForTokenException.class, () -> {
-            spotifyToken = spotifyTokenDAO.getToken();
-        });
-    }
-
-    @Test
-    public void shouldThrowInvalidRequestTokenPathException() {
-        credentials.setTokenUrl("https://google.com");
-
-        assertThrows(InvalidRequestTokenPathException.class, () -> {
-            spotifyToken = spotifyTokenDAO.getToken();
-        });
     }
 }

@@ -36,12 +36,11 @@ public class SpotifyTokenDAO implements TokenDAO {
         outputStream.write(getRequestData());
     }
 
-    private byte[] getRequestData() throws IOException {
-        SpotifyCredentials credentials = new SpotifyCredentials();
+    private byte[] getRequestData() {
         String request = "grant_type=client_credentials&client_id=" +
-                credentials.getClientId() +
+                SpotifyCredentials.CLIENT_ID +
                 "&client_secret=" +
-                credentials.getClientSecret();
+                SpotifyCredentials.CLIENT_SECRET;
 
         return request.getBytes(StandardCharsets.UTF_8);
     }

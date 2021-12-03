@@ -4,10 +4,8 @@ import nl.th7mo.spotify.SpotifyPlaylist;
 
 public class YoutubeController {
 
-    private final YoutubePlaylistDAO playlistDAO = new YoutubePlaylistDAO();
-
-    public void postPlaylist(SpotifyPlaylist spotifyPlaylist) {
-        YoutubePlaylist youtubePlaylist = playlistDAO.getPlaylist(spotifyPlaylist);
-        playlistDAO.postPlaylist(youtubePlaylist, spotifyPlaylist);
+    public void postPlaylist(SpotifyPlaylist spotifyPlaylist, String apiKey) {
+        YoutubePlaylistDAO playlistDAO = new YoutubePlaylistDAO(spotifyPlaylist, apiKey);
+        playlistDAO.postPlaylist();
     }
 }
