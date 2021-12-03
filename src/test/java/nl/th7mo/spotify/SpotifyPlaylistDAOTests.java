@@ -2,6 +2,11 @@ package nl.th7mo.spotify;
 
 import nl.th7mo.connection.InvalidAccessTokenException;
 import nl.th7mo.connection.InvalidPlaylistIdException;
+import nl.th7mo.spotify.playlist.SpotifyPlaylist;
+import nl.th7mo.spotify.playlist.SpotifyPlaylistDAO;
+import nl.th7mo.spotify.playlist.Track;
+import nl.th7mo.spotify.token.SpotifyToken;
+import nl.th7mo.spotify.token.SpotifyTokenDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +26,7 @@ public class SpotifyPlaylistDAOTests {
     public void setUp() throws IOException {
         spotifyPlaylistDAO = new SpotifyPlaylistDAO();
         SpotifyTokenDAO spotifyTokenDAO = new SpotifyTokenDAO();
-        Token spotifyToken = spotifyTokenDAO.getToken();
+        SpotifyToken spotifyToken = spotifyTokenDAO.getToken();
         accessToken = spotifyToken.getAccess_token();
     }
 

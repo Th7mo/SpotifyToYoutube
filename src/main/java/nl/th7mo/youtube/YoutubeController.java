@@ -1,6 +1,6 @@
 package nl.th7mo.youtube;
 
-import nl.th7mo.spotify.SpotifyPlaylist;
+import nl.th7mo.spotify.playlist.SpotifyPlaylist;
 
 public class YoutubeController {
 

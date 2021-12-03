@@ -1,15 +1,12 @@
-package nl.th7mo.spotify;
+package nl.th7mo.spotify.playlist;
 
 import com.google.gson.Gson;
 import nl.th7mo.connection.HttpURLConnectionDirector;
+import nl.th7mo.connection.ResponseBuilder;
 import nl.th7mo.connection.SpotifyPlaylistTitleConnectionBuilder;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.util.stream.Collectors;
 
 public class SpotifyPlaylistTitleDAO {
 
@@ -40,19 +37,8 @@ public class SpotifyPlaylistTitleDAO {
 	}
 
 	private void addResponse() throws IOException {
-		BufferedReader reader = getBufferedReader();
-		addTitle(buildResponseString(reader));
-	}
-
-	private BufferedReader getBufferedReader() throws IOException {
-		InputStream inputStream = connection.getInputStream();
-		InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-
-		return new BufferedReader(inputStreamReader);
-	}
-
-	private String buildResponseString(BufferedReader reader) {
-		return reader.lines().collect(Collectors.joining());
+		String response = ResponseBuilder.getResponse(connection);
+		addTitle(response);
 	}
 
 	private void addTitle(String json) {

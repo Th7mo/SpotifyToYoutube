@@ -1,17 +1,15 @@
-package nl.th7mo.spotify;
+package nl.th7mo.spotify.token;
 
-public class SpotifyToken implements Token {
+public class SpotifyToken {
 
     private String access_token;
     private String token_type;
     private int expires_in;
 
-    @Override
     public String getAccess_token() {
         return access_token;
     }
 
-    @Override
     public void setAccess_token(String access_token) {
         this.access_token = access_token;
     }

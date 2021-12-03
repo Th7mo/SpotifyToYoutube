@@ -1,4 +1,4 @@
-package nl.th7mo.spotify;
+package nl.th7mo.spotify.token;
 
 import nl.th7mo.connection.StatusCode;
 import nl.th7mo.connection.BadRequestException;

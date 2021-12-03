@@ -1,4 +1,4 @@
-package nl.th7mo.spotify;
+package nl.th7mo.spotify.playlist;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package nl.th7mo.util;
+package nl.th7mo.youtube;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.auth.oauth2.StoredCredential;

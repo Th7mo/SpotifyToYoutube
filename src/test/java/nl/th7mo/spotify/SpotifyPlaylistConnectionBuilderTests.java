@@ -4,6 +4,8 @@ import nl.th7mo.connection.SpotifyPlaylistConnectionBuilder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import nl.th7mo.spotify.token.SpotifyToken;
+import nl.th7mo.spotify.token.SpotifyTokenDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
