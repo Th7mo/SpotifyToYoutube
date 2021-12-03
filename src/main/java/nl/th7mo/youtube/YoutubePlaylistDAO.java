@@ -39,8 +39,12 @@ public class YoutubePlaylistDAO {
         List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
         Credential credential = Authorisation.authorize(scopes, "playlistupdates");
         youtube = new YouTube.Builder(
-                Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, credential)
-                .setApplicationName("SpotifyToYoutube").build();
+            Authorisation.HTTP_TRANSPORT,
+            Authorisation.JSON_FACTORY,
+            credential
+        )
+        .setApplicationName("SpotifyToYoutube")
+        .build();
     }
 
     private String insertEmptyPlaylist() throws IOException {
