@@ -1,14 +1,8 @@
-package dao;
+package nl.th7mo.spotify;
 
-import nl.th7mo.connection.InvalidCredentialsForTokenException;
-import nl.th7mo.connection.InvalidRequestTokenPathException;
-import nl.th7mo.spotify.SpotifyCredentials;
-import nl.th7mo.spotify.SpotifyToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import nl.th7mo.spotify.SpotifyTokenDAO;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;

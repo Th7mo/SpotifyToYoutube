@@ -1,12 +1,7 @@
-package dao;
+package nl.th7mo.spotify;
 
 import nl.th7mo.connection.InvalidAccessTokenException;
 import nl.th7mo.connection.InvalidPlaylistIdException;
-import nl.th7mo.spotify.SpotifyPlaylist;
-import nl.th7mo.spotify.SpotifyPlaylistDAO;
-import nl.th7mo.spotify.SpotifyTokenDAO;
-import nl.th7mo.spotify.Token;
-import nl.th7mo.spotify.Track;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,9 +1,5 @@
 package nl.th7mo.util;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -19,21 +15,6 @@ public class JsonService {
         BufferedReader bufferedReader = new BufferedReader(reader);
 
         return bufferedReader.lines().collect(Collectors.joining("\n"));
-    }
-
-    public static String getValueOfKey(final String key, final String json) {
-        JsonElement element = JsonParser.parseString(json);
-        JsonObject jsonObject = element.getAsJsonObject();
-
-        return jsonObject.get(key).getAsString();
-    }
-
-    public static void setValueOfKey(final String key, final String value,
-                                     final String fileName) throws FileNotFoundException {
-        String json = getJsonFromResource(fileName);
-        JSONObject jsonObject = new JSONObject(json);
-        jsonObject.put(key, value);
-        writeJSONObject(jsonObject, fileName);
     }
 
     public static void setValueOfKeyYoutubeCredentials(final String key,

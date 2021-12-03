@@ -1,8 +1,7 @@
-package builder;
+package nl.th7mo.spotify;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import nl.th7mo.spotify.SpotifyCredentials;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import nl.th7mo.connection.SpotifyTokenConnectionBuilder;

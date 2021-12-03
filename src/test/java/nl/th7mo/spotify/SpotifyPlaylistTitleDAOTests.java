@@ -1,4 +1,4 @@
-package dao;
+package nl.th7mo.spotify;
 
 import nl.th7mo.spotify.SpotifyPlaylist;
 import nl.th7mo.spotify.SpotifyPlaylistTitleDAO;
@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class SpotifyPlaylistTitleDAOTests {
 
-    private SpotifyPlaylistTitleDAO titleDAO = new SpotifyPlaylistTitleDAO();
-    private SpotifyTokenDAO tokenDAO = new SpotifyTokenDAO();
+    private final SpotifyPlaylistTitleDAO titleDAO = new SpotifyPlaylistTitleDAO();
+    private final SpotifyTokenDAO tokenDAO = new SpotifyTokenDAO();
     private SpotifyToken token;
 
     @BeforeEach
