@@ -40,15 +40,17 @@ public class SpotifyTokenDAOExceptionHandler {
         throw new InvalidCredentialsForTokenException(
                 "Bad Request, Credentials for token are invalid:" +
                 "\n\nClient_Id: " +
-                SpotifyCredentials.CLIENT_ID +
+                System.getProperty("SPOTIFY_CLIENT_ID") +
                 "\nClient_Secret: " +
-                SpotifyCredentials.CLIENT_SECRET);
+                System.getProperty("SPOTIFY_CLIENT_SECRET")
+        );
     }
 
     private static void throwInvalidRequestTokenPathException()
             throws InvalidRequestTokenPathException {
         throw new InvalidRequestTokenPathException(
                 "Bad Request, path to the token endpoint is wrong: " +
-                "\nPath: " + SpotifyCredentials.TOKEN_URL);
+                "\nPath: " + System.getProperty("SPOTIFY_TOKEN_URL")
+        );
     }
 }

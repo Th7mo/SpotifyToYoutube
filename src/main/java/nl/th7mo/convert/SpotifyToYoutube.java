@@ -39,15 +39,9 @@ public class SpotifyToYoutube implements Runnable {
     @Override
     public void run() {
         try {
-            setCredentials();
             new ApplicationController().convert(playlistId, apiKey);
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    private void setCredentials() throws IOException {
-        JsonService.setValueOfKeyYoutubeCredentials("client_id", clientId, "./youtube_credentials.json");
-        JsonService.setValueOfKeyYoutubeCredentials("client_secret", clientSecret, "./youtube_credentials.json");
     }
 }

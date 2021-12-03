@@ -1,7 +1,5 @@
 package nl.th7mo.connection;
 
-import nl.th7mo.spotify.token.SpotifyCredentials;
-
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -12,7 +10,7 @@ public class SpotifyTokenConnectionBuilder implements HttpURLConnectionBuilder {
 
     @Override
     public void openConnection() throws IOException {
-        URL url = new URL(SpotifyCredentials.TOKEN_URL);
+        URL url = new URL(System.getProperty("SPOTIFY_TOKEN_URL"));
         connection = (HttpURLConnection) url.openConnection();
     }
 
