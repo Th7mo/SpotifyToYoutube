@@ -37,9 +37,9 @@ public class SpotifyTokenDAO {
 
     private byte[] getRequestData() {
         String request = "grant_type=client_credentials&client_id=" +
-                SpotifyCredentials.CLIENT_ID +
+                System.getProperty("SPOTIFY_CLIENT_ID") +
                 "&client_secret=" +
-                SpotifyCredentials.CLIENT_SECRET;
+                System.getProperty("SPOTIFY_CLIENT_SECRET");
 
         return request.getBytes(StandardCharsets.UTF_8);
     }

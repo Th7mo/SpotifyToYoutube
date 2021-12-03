@@ -2,7 +2,6 @@ package nl.th7mo.spotify;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import nl.th7mo.spotify.token.SpotifyCredentials;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import nl.th7mo.connection.SpotifyTokenConnectionBuilder;
@@ -21,7 +20,7 @@ public class SpotifyTokenConnectionBuilderTests {
     }
 
     private void setUpExpectedConnection() throws IOException {
-        URL url = new URL(SpotifyCredentials.TOKEN_URL);
+        URL url = new URL(System.getProperty("SPOTIFY_TOKEN_URL"));
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);
