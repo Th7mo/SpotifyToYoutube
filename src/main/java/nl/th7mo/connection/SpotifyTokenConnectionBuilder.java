@@ -1,6 +1,6 @@
 package nl.th7mo.connection;
 
-import nl.th7mo.spotify.SpotifyCredentials;
+import nl.th7mo.spotify.token.SpotifyCredentials;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;

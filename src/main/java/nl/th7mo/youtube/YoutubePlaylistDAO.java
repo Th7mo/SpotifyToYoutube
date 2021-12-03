@@ -1,9 +1,7 @@
 package nl.th7mo.youtube;
 
-import nl.th7mo.spotify.Item;
-import nl.th7mo.spotify.SpotifyPlaylist;
-
-import nl.th7mo.util.Authorisation;
+import nl.th7mo.spotify.playlist.Item;
+import nl.th7mo.spotify.playlist.SpotifyPlaylist;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.youtube.YouTube;

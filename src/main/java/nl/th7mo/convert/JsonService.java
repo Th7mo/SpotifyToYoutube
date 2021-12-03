@@ -1,4 +1,4 @@
-package nl.th7mo.util;
+package nl.th7mo.convert;
 
 import org.json.JSONObject;
 

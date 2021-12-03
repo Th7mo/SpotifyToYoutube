@@ -1,6 +1,6 @@
 package nl.th7mo.convert;
 
-import nl.th7mo.spotify.SpotifyPlaylist;
+import nl.th7mo.spotify.playlist.SpotifyPlaylist;
 import nl.th7mo.spotify.SpotifyController;
 import nl.th7mo.youtube.YoutubeController;
 

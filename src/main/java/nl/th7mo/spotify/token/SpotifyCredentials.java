@@ -1,4 +1,4 @@
-package nl.th7mo.spotify;
+package nl.th7mo.spotify.token;
 
 public final class SpotifyCredentials {
 

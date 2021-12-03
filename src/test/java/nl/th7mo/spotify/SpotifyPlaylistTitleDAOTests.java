@@ -1,14 +1,14 @@
 package nl.th7mo.spotify;
 
-import nl.th7mo.spotify.SpotifyPlaylist;
-import nl.th7mo.spotify.SpotifyPlaylistTitleDAO;
-import nl.th7mo.spotify.SpotifyToken;
+import nl.th7mo.spotify.playlist.SpotifyPlaylist;
+import nl.th7mo.spotify.playlist.SpotifyPlaylistTitleDAO;
+import nl.th7mo.spotify.token.SpotifyToken;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import nl.th7mo.spotify.SpotifyTokenDAO;
+import nl.th7mo.spotify.token.SpotifyTokenDAO;
 
 import java.io.IOException;
 

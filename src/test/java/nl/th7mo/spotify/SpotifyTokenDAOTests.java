@@ -1,5 +1,7 @@
 package nl.th7mo.spotify;
 
+import nl.th7mo.spotify.token.SpotifyToken;
+import nl.th7mo.spotify.token.SpotifyTokenDAO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

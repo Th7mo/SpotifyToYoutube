@@ -3,7 +3,6 @@ package nl.th7mo.convert;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
-import nl.th7mo.util.JsonService;
 
 import java.io.IOException;
 
