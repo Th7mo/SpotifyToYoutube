@@ -14,16 +14,14 @@ import java.net.URL;
 public class SpotifyTokenConnectionBuilderTests {
 
     private HttpURLConnection connection;
-    private SpotifyCredentials credentials;
 
     @BeforeEach
     public void setUp() throws IOException {
         setUpExpectedConnection();
-        credentials = new SpotifyCredentials();
     }
 
     private void setUpExpectedConnection() throws IOException {
-        URL url = new URL(credentials.getTokenUrl());
+        URL url = new URL(SpotifyCredentials.TOKEN_URL);
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setDoOutput(true);

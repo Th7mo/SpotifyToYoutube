@@ -11,12 +11,10 @@ import java.net.HttpURLConnection;
 public class SpotifyTokenDAOExceptionHandler {
 
     private static HttpURLConnection connection;
-    private static SpotifyCredentials credentials;
 
     public static void handleStatusCodes(HttpURLConnection connection)
             throws IOException, BadRequestException {
         SpotifyTokenDAOExceptionHandler.connection = connection;
-        SpotifyTokenDAOExceptionHandler.credentials = new SpotifyCredentials();
         int responseCode = getResponseCode();
 
         if (responseCode != StatusCode.OK.codeNumber()) {
@@ -42,15 +40,15 @@ public class SpotifyTokenDAOExceptionHandler {
         throw new InvalidCredentialsForTokenException(
                 "Bad Request, Credentials for token are invalid:" +
                 "\n\nClient_Id: " +
-                credentials.getClientId() +
+                SpotifyCredentials.CLIENT_ID +
                 "\nClient_Secret: " +
-                credentials.getClientSecret());
+                SpotifyCredentials.CLIENT_SECRET);
     }
 
     private static void throwInvalidRequestTokenPathException()
             throws InvalidRequestTokenPathException {
         throw new InvalidRequestTokenPathException(
                 "Bad Request, path to the token endpoint is wrong: " +
-                "\nPath: " + credentials.getTokenUrl());
+                "\nPath: " + SpotifyCredentials.TOKEN_URL);
     }
 }
