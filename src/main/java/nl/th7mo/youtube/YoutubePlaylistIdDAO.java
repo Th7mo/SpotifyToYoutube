@@ -39,7 +39,8 @@ public class YoutubePlaylistIdDAO {
 
     private YouTube.Search.List getSearchList(String queryTerm)
             throws IOException {
-        YouTube.Search.List search = youtube.search()
+        YouTube.Search.List search = youtube
+                .search()
                 .list(Collections.singletonList("id,snippet"));
         search.setKey(key);
         search.setQ(queryTerm);
