@@ -1,6 +1,7 @@
 package nl.th7mo.spotify.token;
 
 import com.google.gson.Gson;
+import io.github.cdimascio.dotenv.Dotenv;
 import nl.th7mo.connection.BadRequestException;
 import nl.th7mo.connection.HttpURLConnectionDirector;
 import nl.th7mo.connection.ResponseBuilder;
@@ -13,6 +14,7 @@ import java.nio.charset.StandardCharsets;
 public class SpotifyTokenDAO {
 
     private HttpURLConnection connection;
+    private final Dotenv dotenv = Dotenv.load();
 
     public SpotifyToken getToken() throws BadRequestException, IOException {
         initializeConnection();
@@ -37,9 +39,9 @@ public class SpotifyTokenDAO {
 
     private byte[] getRequestData() {
         String request = "grant_type=client_credentials&client_id=" +
-                System.getProperty("SPOTIFY_CLIENT_ID") +
+                dotenv.get("SPOTIFY_CLIENT_ID") +
                 "&client_secret=" +
-                System.getProperty("SPOTIFY_CLIENT_SECRET");
+                dotenv.get("SPOTIFY_CLIENT_SECRET");
 
         return request.getBytes(StandardCharsets.UTF_8);
     }
