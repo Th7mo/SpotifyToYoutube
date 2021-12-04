@@ -27,7 +27,7 @@ public class SpotifyPlaylistDAOTests {
         spotifyPlaylistDAO = new SpotifyPlaylistDAO();
         SpotifyTokenDAO spotifyTokenDAO = new SpotifyTokenDAO();
         SpotifyToken spotifyToken = spotifyTokenDAO.getToken();
-        accessToken = spotifyToken.getAccess_token();
+        accessToken = spotifyToken.accessToken;
     }
 
     @Test
