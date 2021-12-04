@@ -6,6 +6,7 @@ import com.google.api.services.youtube.model.Playlist;
 import com.google.api.services.youtube.model.SearchResult;
 import com.google.common.collect.Lists;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import nl.th7mo.spotify.playlist.Item;
 import nl.th7mo.spotify.playlist.SpotifyPlaylist;
 
@@ -22,9 +23,10 @@ public class YoutubePlaylistDAO {
     private String playlistId;
     private final YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
 
-    public YoutubePlaylistDAO (SpotifyPlaylist spotifyPlaylist, String key) {
+    public YoutubePlaylistDAO (SpotifyPlaylist spotifyPlaylist) {
         this.spotifyPlaylist = spotifyPlaylist;
-        this.key = key;
+        Dotenv dotenv = Dotenv.load();
+        this.key = dotenv.get("YOUTUBE_API_KEY");
         init();
     }
 

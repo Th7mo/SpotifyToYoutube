@@ -1,22 +1,15 @@
 package nl.th7mo.convert;
 
 import picocli.CommandLine.Command;
-import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.io.IOException;
 
 @Command(
-        name = "spotifytoyoutube",
+        name = "SpotifyToYoutube",
         mixinStandardHelpOptions = true
 )
 public class SpotifyToYoutube implements Runnable {
-
-    @Option(
-            names = {"-a", "--api-key"},
-            description = "The api-key used to search for Youtube ids"
-    )
-    private String apiKey;
 
     @Parameters(
             paramLabel = "<playlistId>",
@@ -27,7 +20,7 @@ public class SpotifyToYoutube implements Runnable {
     @Override
     public void run() {
         try {
-            new ApplicationController().convert(playlistId, apiKey);
+            new ApplicationController().convert(playlistId);
         } catch (IOException e) {
             e.printStackTrace();
         }
