@@ -23,7 +23,7 @@ public class SpotifyTokenDAOTests {
     public void shouldSayAccessTokenIsNotNullWhenGettingToken()
             throws IOException {
         spotifyToken = spotifyTokenDAO.getToken();
-        String access_token = spotifyToken.getAccess_token();
+        String access_token = spotifyToken.accessToken;
 
         assertNotNull(access_token);
     }
@@ -32,7 +32,7 @@ public class SpotifyTokenDAOTests {
     public void shouldSayTokenTypeIsNotNullWhenGettingToken()
             throws IOException {
         spotifyToken = spotifyTokenDAO.getToken();
-        String token_type = spotifyToken.getToken_type();
+        String token_type = spotifyToken.tokenType;
 
         assertNotNull(token_type);
     }
@@ -42,7 +42,7 @@ public class SpotifyTokenDAOTests {
             throws IOException {
         int expected_expires_in = 3600;
         spotifyToken = spotifyTokenDAO.getToken();
-        int expires_in = spotifyToken.getExpires_in();
+        int expires_in = spotifyToken.expiresIn;
 
         assertEquals(expires_in, expected_expires_in);
     }
@@ -52,7 +52,7 @@ public class SpotifyTokenDAOTests {
             throws IOException {
         int expectedTokenLength = 83;
         spotifyToken = spotifyTokenDAO.getToken();
-        String access_token = spotifyToken.getAccess_token();
+        String access_token = spotifyToken.accessToken;
         int tokenLength = access_token.length();
 
         assertEquals(tokenLength, expectedTokenLength);
@@ -63,7 +63,7 @@ public class SpotifyTokenDAOTests {
             throws IOException {
         String expectedTokenType = "Bearer";
         spotifyToken = spotifyTokenDAO.getToken();
-        String token_type = spotifyToken.getToken_type();
+        String token_type = spotifyToken.tokenType;
 
         assertEquals(token_type, expectedTokenType);
     }

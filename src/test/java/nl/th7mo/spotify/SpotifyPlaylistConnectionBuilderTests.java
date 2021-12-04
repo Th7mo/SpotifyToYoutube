@@ -31,7 +31,7 @@ public class SpotifyPlaylistConnectionBuilderTests {
         connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("GET");
         connection.setDoOutput(true);
-        connection.setRequestProperty("Authorization", "Bearer " + token.getAccess_token());
+        connection.setRequestProperty("Authorization", "Bearer " + token.accessToken);
         connection.setRequestProperty("Content-Type", "application/json");
     }
 
@@ -42,7 +42,7 @@ public class SpotifyPlaylistConnectionBuilderTests {
         builder.openConnection();
         builder.setRequestMethod("GET");
         builder.setOutput(true);
-        builder.setRequestProperty("Authorization", "Bearer " + token.getAccess_token());
+        builder.setRequestProperty("Authorization", "Bearer " + token.accessToken);
         builder.setRequestProperty("Content-Type", "application/json");
 
         assertEquals(connection.toString(), builder.getResult().toString());

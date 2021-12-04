@@ -18,13 +18,13 @@ public class SpotifyController {
     public void setSpotifyPlaylist(String playlistId) throws IOException {
         this.playlistId = playlistId;
         token = new SpotifyTokenDAO().getToken();
-        String tokenString = token.getAccess_token();
+        String tokenString = token.accessToken;
         spotifyPlaylist = new SpotifyPlaylistDAO().getPlaylist(tokenString, playlistId);
         addTitleToPlaylist();
     }
 
     private void addTitleToPlaylist() throws IOException {
-        String tokenString = token.getAccess_token();
+        String tokenString = token.accessToken;
         spotifyPlaylist = titleDAO.getPlaylistWithTitle(
                 spotifyPlaylist,
                 tokenString,
