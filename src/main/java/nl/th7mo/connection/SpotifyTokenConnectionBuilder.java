@@ -3,8 +3,10 @@ package nl.th7mo.connection;
 import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
+
 import java.util.Objects;
 
 public class SpotifyTokenConnectionBuilder implements HttpURLConnectionBuilder {

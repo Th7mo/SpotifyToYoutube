@@ -1,13 +1,17 @@
 package nl.th7mo.spotify.token;
 
 import com.google.gson.Gson;
+
 import io.github.cdimascio.dotenv.Dotenv;
+
 import nl.th7mo.connection.BadRequestException;
 import nl.th7mo.connection.HttpURLConnectionDirector;
 import nl.th7mo.connection.ResponseBuilder;
 import nl.th7mo.connection.SpotifyTokenConnectionBuilder;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+
 import java.net.HttpURLConnection;
 import java.nio.charset.StandardCharsets;
 

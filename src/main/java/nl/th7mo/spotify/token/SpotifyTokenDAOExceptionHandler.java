@@ -1,6 +1,7 @@
 package nl.th7mo.spotify.token;
 
 import io.github.cdimascio.dotenv.Dotenv;
+
 import nl.th7mo.connection.StatusCode;
 import nl.th7mo.connection.BadRequestException;
 import nl.th7mo.connection.InvalidCredentialsForTokenException;

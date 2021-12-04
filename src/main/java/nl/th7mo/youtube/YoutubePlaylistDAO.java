@@ -1,15 +1,22 @@
 package nl.th7mo.youtube;
 
+import com.google.api.services.youtube.model.Playlist;
+import com.google.api.services.youtube.model.PlaylistSnippet;
+import com.google.api.services.youtube.model.PlaylistStatus;
+import com.google.api.services.youtube.model.SearchListResponse;
+import com.google.api.services.youtube.model.SearchResult;
+
 import nl.th7mo.spotify.playlist.Item;
 import nl.th7mo.spotify.playlist.SpotifyPlaylist;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.youtube.YouTube;
-import com.google.api.services.youtube.model.*;
 import com.google.common.collect.Lists;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+
+import java.util.Collections;
+import java.util.List;
 
 public class YoutubePlaylistDAO {
 

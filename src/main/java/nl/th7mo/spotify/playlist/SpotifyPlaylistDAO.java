@@ -1,11 +1,13 @@
 package nl.th7mo.spotify.playlist;
 
 import com.google.gson.Gson;
+
 import nl.th7mo.connection.HttpURLConnectionDirector;
 import nl.th7mo.connection.ResponseBuilder;
 import nl.th7mo.connection.SpotifyPlaylistConnectionBuilder;
 
 import java.io.IOException;
+
 import java.net.HttpURLConnection;
 
 public class SpotifyPlaylistDAO {
