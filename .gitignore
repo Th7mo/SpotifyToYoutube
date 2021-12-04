@@ -6,6 +6,8 @@ target/
 *.bin
 .env
 
+youtube_credentials.json
+
 ### STS ###
 .apt_generated
 .classpath
