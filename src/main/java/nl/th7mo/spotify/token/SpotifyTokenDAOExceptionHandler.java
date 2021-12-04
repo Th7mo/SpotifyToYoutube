@@ -1,5 +1,6 @@
 package nl.th7mo.spotify.token;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import nl.th7mo.connection.StatusCode;
 import nl.th7mo.connection.BadRequestException;
 import nl.th7mo.connection.InvalidCredentialsForTokenException;
@@ -11,6 +12,7 @@ import java.net.HttpURLConnection;
 public class SpotifyTokenDAOExceptionHandler {
 
     private static HttpURLConnection connection;
+    private final static Dotenv dotenv = Dotenv.load();
 
     public static void handleStatusCodes(HttpURLConnection connection)
             throws IOException, BadRequestException {
@@ -40,9 +42,9 @@ public class SpotifyTokenDAOExceptionHandler {
         throw new InvalidCredentialsForTokenException(
                 "Bad Request, Credentials for token are invalid:" +
                 "\n\nClient_Id: " +
-                System.getProperty("SPOTIFY_CLIENT_ID") +
+                dotenv.get("SPOTIFY_CLIENT_ID") +
                 "\nClient_Secret: " +
-                System.getProperty("SPOTIFY_CLIENT_SECRET")
+                dotenv.get("SPOTIFY_CLIENT_SECRET")
         );
     }
 
@@ -50,7 +52,7 @@ public class SpotifyTokenDAOExceptionHandler {
             throws InvalidRequestTokenPathException {
         throw new InvalidRequestTokenPathException(
                 "Bad Request, path to the token endpoint is wrong: " +
-                "\nPath: " + System.getProperty("SPOTIFY_TOKEN_URL")
+                "\nPath: " + dotenv.get("SPOTIFY_TOKEN_URL")
         );
     }
 }
