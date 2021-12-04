@@ -7,6 +7,7 @@ import com.google.api.services.youtube.model.SearchResult;
 import com.google.common.collect.Lists;
 
 import io.github.cdimascio.dotenv.Dotenv;
+
 import nl.th7mo.spotify.playlist.Item;
 import nl.th7mo.spotify.playlist.SpotifyPlaylist;
 
@@ -18,15 +19,16 @@ import java.util.List;
 public class YoutubePlaylistDAO {
 
     private YouTube youtube;
-    private final SpotifyPlaylist spotifyPlaylist;
-    private final String key;
     private String playlistId;
+
+    private final SpotifyPlaylist spotifyPlaylist;
+    private final String youtubeApiKey;
     private final YoutubePlaylistItemDAO youtubePlaylistItemDAO = new YoutubePlaylistItemDAO();
 
     public YoutubePlaylistDAO (SpotifyPlaylist spotifyPlaylist) {
         this.spotifyPlaylist = spotifyPlaylist;
-        Dotenv dotenv = Dotenv.load();
-        this.key = dotenv.get("YOUTUBE_API_KEY");
+        Dotenv dotenvVariableLoader = Dotenv.load();
+        this.youtubeApiKey = dotenvVariableLoader.get("YOUTUBE_API_KEY");
         init();
     }
 
@@ -41,8 +43,8 @@ public class YoutubePlaylistDAO {
     }
 
     private void setYoutubeObject() throws IOException {
-        List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
-        Credential credential = Authorisation.authorize(scopes, "playlistupdates");
+        List<String> requestScopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
+        Credential credential = Authorisation.authorize(requestScopes, "playlistupdates");
         youtube = YoutubeBuilder.buildYoutube(credential);
     }
 
@@ -60,7 +62,7 @@ public class YoutubePlaylistDAO {
     public void postPlaylist() {
         youtube = YoutubeBuilder.buildYoutube();
         List<Item> items = spotifyPlaylist.getItems();
-        YoutubePlaylistIdDAO playlistIdDAO = new YoutubePlaylistIdDAO(key, youtube);
+        YoutubePlaylistIdDAO playlistIdDAO = new YoutubePlaylistIdDAO(youtubeApiKey, youtube);
 
         for (Item item : items) {
             try {
@@ -73,7 +75,7 @@ public class YoutubePlaylistDAO {
     }
 
     private void addToYoutube(SearchResult searchResult) throws IOException {
-        String id = searchResult.getId().getVideoId();
-        youtubePlaylistItemDAO.insertPlaylistItem(playlistId, id);
+        String youtubeVideoId = searchResult.getId().getVideoId();
+        youtubePlaylistItemDAO.insertPlaylistItem(playlistId, youtubeVideoId);
     }
 }
