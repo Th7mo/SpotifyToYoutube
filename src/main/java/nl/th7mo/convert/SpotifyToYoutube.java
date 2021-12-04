@@ -18,18 +18,6 @@ public class SpotifyToYoutube implements Runnable {
     )
     private String apiKey;
 
-    @Option(
-            names = {"-i", "--client-id"},
-            description = "sets the clientId for the Youtube API"
-    )
-    private String clientId;
-
-    @Option(
-            names = {"-s", "--client-secret"},
-            description = "The client secret used to insert Youtube playlist items"
-    )
-    private String clientSecret;
-
     @Parameters(
             paramLabel = "<playlistId>",
             description = "The id of the Spotify Playlist that will be converted"
