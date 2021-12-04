@@ -8,10 +8,10 @@ import java.io.IOException;
 
 public class ApplicationController {
 
-    public void convert(String playlistId, String apiKey) throws IOException {
+    public void convert(String playlistId) throws IOException {
         SpotifyController spotifyController = new SpotifyController();
         spotifyController.setSpotifyPlaylist(playlistId);
         SpotifyPlaylist spotifyPlaylist = spotifyController.getSpotifyPlaylist();
-        new YoutubeController().postPlaylist(spotifyPlaylist, apiKey);
+        new YoutubeController().postPlaylist(spotifyPlaylist);
     }
 }
