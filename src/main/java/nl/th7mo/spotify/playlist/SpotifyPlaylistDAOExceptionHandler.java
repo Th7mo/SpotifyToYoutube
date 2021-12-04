@@ -45,15 +45,15 @@ public class SpotifyPlaylistDAOExceptionHandler {
     private static void throwInvalidAccessTokenException()
             throws InvalidAccessTokenException {
         throw new InvalidAccessTokenException(
-                "Bad Request, The Spotify API does not" +
-                "recognize this Access Token:" +
-                "\nAccessToken: " + accessToken);
+                "Bad Request, The Spotify API does not " +
+                "recognize this Access Token: " +
+                "\naccessToken: " + accessToken);
     }
 
     private static void throwInvalidPlaylistIdException()
             throws InvalidPlaylistIdException {
         throw new InvalidPlaylistIdException(
-                "Playlist could not be found, The Spotify API does not: " +
+                "Playlist could not be found, The Spotify API does not " +
                 "recognize this playlistId" +
                 "\nPlaylistId: " + playlistId);
     }
