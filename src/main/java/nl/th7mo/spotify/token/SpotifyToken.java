@@ -1,15 +1,15 @@
 package nl.th7mo.spotify.token;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
 
 public class SpotifyToken {
 
-    @JsonProperty("access_token")
+    @SerializedName("access_token")
     public String accessToken;
 
-    @JsonProperty("token_type")
+    @SerializedName("token_type")
     public String tokenType;
 
-    @JsonProperty("expires_in")
+    @SerializedName("expires_in")
     public int expiresIn;
 }

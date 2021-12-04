@@ -1,17 +1,13 @@
 package nl.th7mo.youtube;
 
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.services.youtube.YouTube;
 import com.google.api.services.youtube.model.Playlist;
-import com.google.api.services.youtube.model.PlaylistSnippet;
-import com.google.api.services.youtube.model.PlaylistStatus;
-import com.google.api.services.youtube.model.SearchListResponse;
 import com.google.api.services.youtube.model.SearchResult;
+import com.google.common.collect.Lists;
 
 import nl.th7mo.spotify.playlist.Item;
 import nl.th7mo.spotify.playlist.SpotifyPlaylist;
-
-import com.google.api.client.auth.oauth2.Credential;
-import com.google.api.services.youtube.YouTube;
-import com.google.common.collect.Lists;
 
 import java.io.IOException;
 
@@ -37,7 +33,7 @@ public class YoutubePlaylistDAO {
             setYoutubeObject();
             youtubePlaylistItemDAO.setYoutube(youtube);
             this.playlistId = insertEmptyPlaylist();
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -45,78 +41,33 @@ public class YoutubePlaylistDAO {
     private void setYoutubeObject() throws IOException {
         List<String> scopes = Lists.newArrayList("https://www.googleapis.com/auth/youtube");
         Credential credential = Authorisation.authorize(scopes, "playlistupdates");
-        youtube = new YouTube.Builder(
-            Authorisation.HTTP_TRANSPORT,
-            Authorisation.JSON_FACTORY,
-            credential
-        )
-        .setApplicationName("SpotifyToYoutube")
-        .build();
+        youtube = YoutubeBuilder.buildYoutube(credential);
     }
 
     private String insertEmptyPlaylist() throws IOException {
-        Playlist youTubePlaylist = getYoutubePlaylistObject();
+        Playlist youTubePlaylist = YoutubeBuilder.getYoutubePlaylistObject(spotifyPlaylist);
         List<String> part = Collections.singletonList("snippet,status");
-        YouTube.Playlists.Insert playlistInsertCommand =
-                youtube.playlists().insert(part, youTubePlaylist);
+        YouTube.Playlists.Insert playlistInsertCommand = youtube
+                .playlists()
+                .insert(part, youTubePlaylist);
         Playlist playlistInserted = playlistInsertCommand.execute();
 
         return playlistInserted.getId();
     }
 
-    private Playlist getYoutubePlaylistObject() {
-        PlaylistSnippet playlistSnippet = new PlaylistSnippet();
-        playlistSnippet.setTitle(spotifyPlaylist.getName());
-        PlaylistStatus playlistStatus = new PlaylistStatus();
-        playlistStatus.setPrivacyStatus("private");
-        Playlist youTubePlaylist = new Playlist();
-        youTubePlaylist.setSnippet(playlistSnippet);
-        youTubePlaylist.setStatus(playlistStatus);
-
-        return youTubePlaylist;
-    }
-
     public void postPlaylist() {
-        youtube = new YouTube.Builder(
-                Authorisation.HTTP_TRANSPORT, Authorisation.JSON_FACTORY, request -> {})
-                .setApplicationName("SpotifyToYoutube").build();
+        youtube = YoutubeBuilder.buildYoutube();
         List<Item> items = spotifyPlaylist.getItems();
+        YoutubePlaylistIdDAO playlistIdDAO = new YoutubePlaylistIdDAO(key, youtube);
 
         for (Item item : items) {
             try {
-                SearchResult result = getSearchResult(item);
+                SearchResult result = playlistIdDAO.getSearchResult(item);
                 addToYoutube(result);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    private SearchResult getSearchResult(Item item) throws IOException {
-        String queryTerm = getQueryTerm(item);
-        System.out.println("> + " + queryTerm);
-        YouTube.Search.List search = getSearchList(queryTerm);
-        SearchListResponse searchResponse = search.execute();
-
-        return searchResponse.getItems().get(0);
-    }
-
-    private String getQueryTerm(Item item) {
-        return item.getTrack().getArtist(0).getName() +
-                " " + item.getTrack().getName();
-    }
-
-    private YouTube.Search.List getSearchList(String queryTerm)
-            throws IOException {
-        YouTube.Search.List search = youtube.search()
-                .list(Collections.singletonList("id,snippet"));
-        search.setKey(key);
-        search.setQ(queryTerm);
-        search.setType(Collections.singletonList("video"));
-        search.setFields("items(id)");
-        search.setMaxResults(1L);
-
-        return search;
     }
 
     private void addToYoutube(SearchResult searchResult) throws IOException {
