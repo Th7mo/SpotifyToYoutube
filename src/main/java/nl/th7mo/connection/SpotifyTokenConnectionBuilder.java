@@ -1,10 +1,13 @@
 package nl.th7mo.connection;
 
-import nl.th7mo.spotify.SpotifyCredentials;
+import io.github.cdimascio.dotenv.Dotenv;
 
 import java.io.IOException;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import java.util.Objects;
 
 public class SpotifyTokenConnectionBuilder implements HttpURLConnectionBuilder {
 
@@ -12,8 +15,8 @@ public class SpotifyTokenConnectionBuilder implements HttpURLConnectionBuilder {
 
     @Override
     public void openConnection() throws IOException {
-        SpotifyCredentials credentials = new SpotifyCredentials();
-        URL url = new URL(credentials.getTokenUrl());
+        Dotenv dotenv = Dotenv.load();
+        URL url = new URL(Objects.requireNonNull(dotenv.get("SPOTIFY_TOKEN_URL")));
         connection = (HttpURLConnection) url.openConnection();
     }
 

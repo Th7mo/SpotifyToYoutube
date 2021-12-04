@@ -1,8 +1,7 @@
 package nl.th7mo.connection;
 
-import nl.th7mo.connection.HttpURLConnectionBuilder;
-
 import java.io.IOException;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 
